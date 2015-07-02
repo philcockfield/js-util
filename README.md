@@ -1,7 +1,7 @@
 # js-util
-[![Build Status](https://travis-ci.org/philcockfield/js-util.svg?branch=master)](https://travis-ci.org/philcockfield/js-util)
-
 Common JS utility helpers.
+
+[![Build Status](https://travis-ci.org/philcockfield/js-util.svg?branch=master)](https://travis-ci.org/philcockfield/js-util)
 
 
 # Run
