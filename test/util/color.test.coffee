@@ -1,6 +1,6 @@
 'use strict'
 expect = require('chai').expect
-{ color } = require('core-util')
+{ color } = require('../../')
 
 
 describe 'color', ->
