@@ -1,6 +1,6 @@
 'use strict'
 expect = require('chai').expect
-util = require('../../')
+util = require('../util')
 
 
 describe 'ns (namespace)', ->

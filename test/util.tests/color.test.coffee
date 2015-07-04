@@ -1,6 +1,8 @@
 'use strict'
 expect = require('chai').expect
-{ color } = require('../../')
+{ color } = require('../util')
+
+
 
 
 describe 'color', ->
