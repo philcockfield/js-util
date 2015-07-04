@@ -1,6 +1,6 @@
 {
   "name": "js-util",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Common JS helpers.",
   "main": "index.js",
   "dependencies": {},
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register",
-    "tdd":  "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register --watch"
+    "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register --watch"
   },
   "repository": {
     "type": "git",
