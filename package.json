@@ -11,20 +11,17 @@
     "chai": "^2.2.0"
   },
   "scripts": {
-    "start": "node .",
-    "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register",
-    "tdd":  "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register --watch"
+    "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register",
+    "tdd":  "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register --watch"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/philcockfield/js-util.git"
   },
   "keywords": [
-    "ui",
-    "testing",
-    "react",
-    "modular",
-    "design"
+    "utility",
+    "helper",
+    "functions"
   ],
   "author": "Phil Cockfield",
   "license": "MIT",
