@@ -1,7 +1,7 @@
 'use strict'
 var gulp = require('gulp');
-var babel = require('gulp-babel');
 var eslint = require('gulp-eslint');
+var babel = require('gulp-babel');
 
 
 gulp.task('build', ['build-util']);
