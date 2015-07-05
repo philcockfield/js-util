@@ -5,13 +5,13 @@ import _ from 'lodash';
 // NB: `localStorage` will not be available when
 //      running within environments like JSDom.
 var store = {
-  _store: {},
+  data: {},
 
   removeItem(key) {
     if (localStorage) {
       localStorage.removeItem(key);
     } else {
-      delete this._store[key];
+      delete this.data[key];
     }
   },
 
@@ -19,7 +19,7 @@ var store = {
     if (localStorage) {
       localStorage.setItem(key, value);
     } else {
-      this._store[key] = value;
+      this.data[key] = value;
     }
   },
 
@@ -27,7 +27,7 @@ var store = {
     if (localStorage) {
       return localStorage.getItem(key);
     } else {
-      return this._store[key];
+      return this.data[key];
     }
   }
 };
