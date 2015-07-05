@@ -16,18 +16,6 @@ var _color = require('./color');
 
 var color = _interopRequireWildcard(_color);
 
-var _timer = require('./timer');
-
-var timer = _interopRequireWildcard(_timer);
-
-var _func = require('./func');
-
-var func = _interopRequireWildcard(_func);
-
-var _ns = require('./ns');
-
-var ns = _interopRequireWildcard(_ns);
-
 var _Handlers = require('./Handlers');
 
 var _Handlers2 = _interopRequireDefault(_Handlers);
@@ -37,10 +25,6 @@ var _LocalStorage = require('./LocalStorage');
 var _LocalStorage2 = _interopRequireDefault(_LocalStorage);
 
 util.color = color;
-util.delay = timer.delay;
-util.interval = timer.interval;
-util.functionParameters = func.functionParameters;
-util.ns = ns.namespace;
 util.Handlers = _Handlers2['default'];
 util.LocalStorage = _LocalStorage2['default'];
 

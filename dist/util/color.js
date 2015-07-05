@@ -3,7 +3,12 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var _ = require('lodash');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
 
 /*
   Converts an alpha value into an `argb` color.
@@ -18,7 +23,7 @@ var _ = require('lodash');
   @returns an `argb` style string.
 */
 var fromAlpha = function fromAlpha(value) {
-  if (!_.isNumber(value)) {
+  if (!_lodash2['default'].isNumber(value)) {
     return value;
   }
   if (value < -1) {

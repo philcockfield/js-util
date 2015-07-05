@@ -1,3 +1,4 @@
+/* global localStorage */
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13,13 +14,13 @@ var _lodash2 = _interopRequireDefault(_lodash);
 // NB: `localStorage` will not be available when
 //      running within environments like JSDom.
 var store = {
-  _store: {},
+  data: {},
 
   removeItem: function removeItem(key) {
     if (localStorage) {
       localStorage.removeItem(key);
     } else {
-      delete this._store[key];
+      delete this.data[key];
     }
   },
 
@@ -27,15 +28,15 @@ var store = {
     if (localStorage) {
       localStorage.setItem(key, value);
     } else {
-      this._store[key] = value;
+      this.data[key] = value;
     }
   },
 
   getItem: function getItem(key) {
     if (localStorage) {
-      localStorage.getItem(key);
+      return localStorage.getItem(key);
     } else {
-      this._store[key];
+      return this.data[key];
     }
   }
 };
@@ -56,6 +57,7 @@ var prop = function prop(key, value) {
   } else if (!_lodash2['default'].isUndefined(value)) {
 
     // WRITE.
+    var type;
     if (_lodash2['default'].isString(value)) {
       type = 'string';
     } else if (_lodash2['default'].isBoolean(value)) {
@@ -68,7 +70,7 @@ var prop = function prop(key, value) {
       type = 'object';
     }
 
-    writeValue = { value: value, type: type };
+    var writeValue = { value: value, type: type };
     store.setItem(key, JSON.stringify(writeValue));
   } else {
 
@@ -99,7 +101,9 @@ var prop = function prop(key, value) {
       value = undefined;
     }
 
-    if (_lodash2['default'].isUndefined(value)) value = options['default'];
+    if (_lodash2['default'].isUndefined(value)) {
+      value = options['default'];
+    }
   }
 
   // Finish up.

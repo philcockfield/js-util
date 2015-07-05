@@ -111,7 +111,9 @@ var Handlers = (function () {
       var handle = _lodash2['default'].find(this.items, function (item) {
         return item.func === func;
       });
-      if (handle) _lodash2['default'].remove(this.items, handle);
+      if (handle) {
+        _lodash2['default'].remove(this.items, handle);
+      }
       return !_lodash2['default'].isUndefined(handle);
     }
   }, {
@@ -221,7 +223,9 @@ var Handlers = (function () {
       var done = function done(result) {
         count += 1;
         if (!isCancelled) {
-          if (result === false) isCancelled = true;
+          if (result === false) {
+            isCancelled = true;
+          }
           if (isCancelled) {
             callback(false);
           } else if (count === _this2.items.length) {
@@ -251,8 +255,9 @@ var createHandle = function createHandle(handlers, func) {
     isStopped: false,
 
     stop: function stop() {
-      if (handle.isStopped === true) return;
-      // return if handle.isStopped === true
+      if (handle.isStopped === true) {
+        return;
+      }
       handle.isStopped = true;
       _lodash2['default'].remove(handlers.items, handle);
     },
