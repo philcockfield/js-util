@@ -4,11 +4,10 @@ var eslint = require('gulp-eslint');
 var babel = require('gulp-babel');
 
 
-gulp.task('build', ['build-util']);
-gulp.task('build-util', function () {
-  return gulp.src('./util/**/*.js')
+gulp.task('build', function () {
+  return gulp.src('./src/**/*.js')
     .pipe(babel())
-    .pipe(gulp.dest('dist/util'));
+    .pipe(gulp.dest('dist'));
 });
 
 
@@ -16,7 +15,7 @@ gulp.task('build-util', function () {
 
 
 gulp.task('lint', function() {
-  return gulp.src('./util/**/*.js')
+  return gulp.src('./src/**/*.js')
     .pipe(eslint())
     .pipe(eslint.format());
 });
