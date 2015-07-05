@@ -37,7 +37,7 @@ export default class Handlers {
   /*
   Gets the handle with the corresponding function.
   */
-  handle(func) { return _.find(this.items, (item) => item.func === func) }
+  handle(func) { return _.find(this.items, (item) => item.func === func); }
 
 
   /*
@@ -54,7 +54,7 @@ export default class Handlers {
   }
 
   // Alias to 'add'.
-  push(func) { return this.add(func) }
+  push(func) { return this.add(func); }
 
 
   /*
@@ -64,7 +64,7 @@ export default class Handlers {
   */
   remove(func) {
     var handle = _.find(this.items, (item) => item.func === func);
-    if (handle) _.remove(this.items, handle);
+    if (handle) { _.remove(this.items, handle); }
     return !_.isUndefined(handle);
   }
 
@@ -85,7 +85,7 @@ export default class Handlers {
     var items = _.clone(this.items);
     for (let i in items) {
       let item = items[i];
-      let result = item.func.apply(this.context, args)
+      let result = item.func.apply(this.context, args);
       if (result === false) {
         return false;
       }
@@ -142,21 +142,21 @@ export default class Handlers {
       return;
     }
 
-    var isCancelled = false
-    var count = 0
+    var isCancelled = false;
+    var count = 0;
     var done = (result) => {
-        count += 1
+        count += 1;
         if (!isCancelled) {
-          if(result === false) isCancelled = true;
+          if(result === false) { isCancelled = true; }
           if (isCancelled) {
             callback(false);
           } else if(count === this.items.length) {
             callback(true);
           }
         }
-      }
+      };
 
-    args.push(done)
+    args.push(done);
     this.items.forEach((item) => item.func.apply(this.context, args));
 
   }
@@ -172,13 +172,12 @@ var createHandle = (handlers, func) => {
     isStopped: false,
 
     stop() {
-      if (handle.isStopped === true) return;
-      // return if handle.isStopped === true
+      if (handle.isStopped === true) { return; }
       handle.isStopped = true;
       _.remove(handlers.items, handle);
     },
 
     dispose() { this.stop(); }
-  }
+  };
   return handle;
 };

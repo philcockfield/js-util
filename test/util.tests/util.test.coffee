@@ -97,3 +97,104 @@ describe 'util.toBool', ->
     expect(util.toBool(' ')).to.equal ' '
     expect(util.toBool(123)).to.equal 123
     expect(util.toBool({foo:123})).to.eql {foo:123}
+
+
+# ----------------------------------------------------------------------------
+
+
+describe 'util.delay', ->
+  it 'delays', (done) ->
+    isFinished = false
+    util.delay 5, -> isFinished = true
+    fn = ->
+        expect(isFinished).to.equal true
+        done()
+    setTimeout(fn, 10)
+
+
+  it 'does not fail when no function is specified', (done) ->
+    util.delay 100
+    util.delay 5, -> done()
+
+
+  it 'invokes immediately when no time value is specified', (done) ->
+    util.delay -> done()
+
+
+  it 'stops the timer', (done) ->
+    isFinished = false
+    result = util.delay 5, -> isFinished = true
+    result.stop()
+    util.delay 10, ->
+      expect(isFinished).to.equal false
+      done()
+
+
+
+# ----------------------------------------------------------------------------
+
+
+describe 'ns (namespace)', ->
+  it 'creates a new object (on specified root object)', ->
+    root = {}
+    foo = util.ns(root, 'path.foo')
+    expect(foo).to.be.an 'object'
+    expect(root.path.foo).to.exist
+
+  it 'creates a new object from namespace as array (on specified root object)', ->
+    root = {}
+    foo = util.ns(root, ['path', 'foo'])
+    expect(foo).to.be.an 'object'
+    expect(root.path.foo).to.exist
+
+  it 'retrieves the same object', ->
+    root = {}
+    foo1 = util.ns(root, 'path.foo')
+    foo2 = util.ns(root, 'path.foo')
+    expect(foo1).to.equal foo2
+
+  it 'returns different objects from different roots', ->
+    root1 = {}
+    root2 = {}
+    foo1 = util.ns(root1, 'path.foo')
+    foo2 = util.ns(root2, 'path.foo')
+    expect(foo1).not.to.equal foo2
+
+  it 'returns a single level path', ->
+    root = {}
+    foo = util.ns(root, 'foo')
+    expect(root.foo).to.exist
+
+  it 'returns nothing', ->
+    root = {}
+    expect(util.ns()).not.to.exist
+    expect(util.ns(root)).not.to.exist
+    expect(util.ns(root, null)).not.to.exist
+    expect(util.ns(root, '')).not.to.exist
+    expect(util.ns(root, '  ')).not.to.exist
+
+
+# ----------------------------------------------------------------------------
+
+
+
+describe 'util.functionParameters', ->
+  it 'has no params', ->
+    expect(util.functionParameters(-> )).to.eql []
+
+  it 'has two params', ->
+    fn = (one, two) ->
+    expect(util.functionParameters(fn)).to.eql ['one', 'two']
+
+
+  it 'returns an empty array for (args...)', ->
+    fn = (args...) ->
+    expect(util.functionParameters(fn)).to.eql []
+
+
+  it 'returns an empty array when a string is passed', ->
+    expect(util.functionParameters('foo')).to.eql []
+
+
+  it 'returns an empty array when a object is passed', ->
+    expect(util.functionParameters({})).to.eql []

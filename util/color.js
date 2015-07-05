@@ -1,4 +1,5 @@
-var _ = require('lodash');
+import _ from 'lodash';
+
 
 /*
   Converts an alpha value into an `argb` color.

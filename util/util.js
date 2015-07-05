@@ -1,50 +1,136 @@
+/* global setTimeout, clearTimeout */
 import _ from 'lodash';
 
 
-/*
-A safe way to test any value as to wheather is is "blank"
-meaning it can be either:
-  - null
-  - undefined
-  - empty-string.
-  - empty-array
+/**
+* A safe way to test any value as to wheather is is "blank"
+* meaning it can be either:
+*   - null
+*   - undefined
+*   - empty-string.
+*   - empty-array
 */
 export var isBlank = (value) => {
-  if (value === null || value === undefined) return true;
-  if (_.isArray(value) && _.compact(value).length === 0) return true;
-  if (_.isString(value) && _.trim(value) === '') return true;
-  return false
+  if (value === null || value === undefined) { return true; }
+  if (_.isArray(value) && _.compact(value).length === 0) { return true; }
+  if (_.isString(value) && _.trim(value) === '') { return true; }
+  return false;
 };
 
 
-/*
-Determines whether the given value is a number, or can be
-parsed into a number.
-
-NOTE: Examines string values to see if they are numeric.
-
-@param value: The value to examine.
-@returns true if the value is a number.
+/**
+* Determines whether the given value is a number, or can be
+* parsed into a number.
+*
+* NOTE: Examines string values to see if they are numeric.
+*
+* @param value: The value to examine.
+* @returns true if the value is a number.
 */
 export var isNumeric = (value) => {
-  if (isBlank(value)) return false;
+  if (isBlank(value)) { return false; }
   var number = parseFloat(value);
-  if (number === undefined) return false;
-  if (number.toString().length !== value.toString().length) return false;
+  if (number === undefined) { return false; }
+  if (number.toString().length !== value.toString().length) { return false; }
   return !_.isNaN(number);
 };
 
 
-/*
-Converts a value to boolean (if it can).
-@param value: The value to convert.
-@returns the converted boolean, otherwise the original value.
+
+/**
+* Converts a value to boolean (if it can).
+* @param value: The value to convert.
+* @returns the converted boolean, otherwise the original value.
 */
 export var toBool = (value) => {
-  if (!value) return value;
-  if (_.isBoolean(value)) return value;
+  if (!value) { return value; }
+  if (_.isBoolean(value)) { return value; }
   let asString = _.trim(value.toString()).toLowerCase();
-  if (asString === 'true') return true;
-  if (asString === 'false') return false;
+  if (asString === 'true') { return true; }
+  if (asString === 'false') { return false; }
   return value;
+};
+
+
+
+/**
+* Provides a more convenient way of setting a timeout.
+*
+* @param msecs:  The milliseconds to delay.
+* @param func:   The function to invoke.
+*
+* @returns  The timer handle.
+*           Use the [stop] method to cancel the timer.
+*/
+export var delay = (msecs, func) => {
+  // Check parameters.
+  if (_.isFunction(msecs)) {
+    func = msecs;
+    msecs = 0; // Immediate "defer" when no milliseconds value specified.
+  }
+  if (!_.isFunction) { return; }
+
+  // Return an object with the running timer.
+  return {
+    msecs: msecs,
+    id: setTimeout(func, msecs),
+    stop() { clearTimeout(this.id); }
+  };
+};
+
+
+/**
+* Safely creates the given namespace on the root object.
+*
+* @param root:      The root object.
+* @param namespace: The dot-delimited NS string (excluding the root object).
+*
+* @returns the child object of the namespace.
+*/
+export var ns = (root, namespace) => {
+  if (_.isString(root) || _.isArray(root)) {
+    namespace = root;
+    root = null;
+  }
+  if (isBlank(namespace)) { return; }
+
+  var getOrCreate = (parent, name) => {
+          parent[name] = parent[name] || {};
+          return parent[name];
+        };
+
+  var add = (parent, parts) => {
+        let part = getOrCreate(parent, parts[0]);
+        if (parts.length > 1) {
+          parts.splice(0, 1);
+          part = add(part, parts);  // <= RECURSION.
+        }
+        return part;
+      };
+
+  // Build the namespace.
+  if (!_.isArray(namespace)) { namespace = namespace.split('.'); }
+  return add(root, namespace);
+};
+
+
+
+/*
+  Determines the parameter names of a function
+
+    See: http://stackoverflow.com/questions/1007981/how-to-get-function-parameter-names-values-dynamically-from-javascript
+
+  @param func: The function to examine.
+  @returns an array of strings.
+
+*/
+export var functionParameters = (func) => {
+  const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+  const ARGUMENT_NAMES = /([^\s,]+)/g;
+
+  if (!_.isFunction(func)) { return []; }
+  let fnStr = func.toString().replace(STRIP_COMMENTS, '');
+  let result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+  if (result === null) { result = []; }
+  return result;
 };

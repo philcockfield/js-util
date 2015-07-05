@@ -1,3 +1,4 @@
+/* global localStorage */
 import _ from 'lodash';
 
 
@@ -24,9 +25,9 @@ var store = {
 
   getItem(key) {
     if (localStorage) {
-      localStorage.getItem(key)
+      return localStorage.getItem(key);
     } else {
-      this._store[key]
+      return this._store[key];
     }
   }
 };
@@ -48,6 +49,7 @@ export var prop = (key, value, options = {}) => {
   } else if(!_.isUndefined(value)) {
 
     // WRITE.
+    var type;
     if (_.isString(value)) {
       type = 'string';
     } else if (_.isBoolean(value)) {
@@ -60,8 +62,8 @@ export var prop = (key, value, options = {}) => {
       type = 'object';
     }
 
-    writeValue = { value:value, type:type }
-    store.setItem(key, JSON.stringify(writeValue))
+    var writeValue = { value: value, type: type };
+    store.setItem(key, JSON.stringify(writeValue));
 
   } else {
 
@@ -86,16 +88,16 @@ export var prop = (key, value, options = {}) => {
 
         case 'object':
           value = json.value;
-          break
+          break;
       }
 
     } else {
       value = undefined;
     }
 
-    if (_.isUndefined(value)) value = options.default;
+    if (_.isUndefined(value)) { value = options.default; }
   }
 
   // Finish up.
-  return value
+  return value;
 };
