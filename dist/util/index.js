@@ -24,9 +24,16 @@ var _LocalStorage = require('./LocalStorage');
 
 var _LocalStorage2 = _interopRequireDefault(_LocalStorage);
 
-util.color = color;
-util.Handlers = _Handlers2['default'];
-util.LocalStorage = _LocalStorage2['default'];
+exports['default'] = {
+  isBlank: util.isBlank,
+  isNumeric: util.isNumeric,
+  toBool: util.toBool,
+  delay: util.delay,
+  ns: util.ns,
+  functionParameters: util.functionParameters,
 
-exports['default'] = util;
+  color: color,
+  Handlers: _Handlers2['default'],
+  LocalStorage: _LocalStorage2['default']
+};
 module.exports = exports['default'];

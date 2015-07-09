@@ -4,9 +4,15 @@ import Handlers from './Handlers';
 import LocalStorage from './LocalStorage';
 
 
-util.color = color;
-util.Handlers = Handlers;
-util.LocalStorage = LocalStorage;
+export default {
+  isBlank: util.isBlank,
+  isNumeric: util.isNumeric,
+  toBool: util.toBool,
+  delay: util.delay,
+  ns: util.ns,
+  functionParameters: util.functionParameters,
 
-
-export default util;
+  color: color,
+  Handlers: Handlers,
+  LocalStorage: LocalStorage
+};
