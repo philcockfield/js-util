@@ -7,7 +7,7 @@ const { XhrError, XhrParseError } = xhr;
 
 
 describe('Http (XmlHttpRequest)', () => {
-  let fakeXhr, requests;
+  let fakeXhr;
 
   beforeEach(() => {
     xhr.createXhr = () => {
