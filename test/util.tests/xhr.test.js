@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { FakeXMLHttpRequest } from 'sinon';
 import { xhr } from '../../';
 const { XhrError, XhrParseError } = xhr;
@@ -7,11 +6,13 @@ const { XhrError, XhrParseError } = xhr;
 
 
 describe('Http (XmlHttpRequest)', () => {
-  let fakeXhr;
+  let fakeXhr, sent;
 
   beforeEach(() => {
+    sent = [];
     xhr.createXhr = () => {
         fakeXhr = new FakeXMLHttpRequest();
+        fakeXhr.send = (data) => { sent.push(data) };
         return fakeXhr;
     };
   });
@@ -95,7 +96,20 @@ describe('Http (XmlHttpRequest)', () => {
       xhr.post('/foo', 123);
       expect(fakeXhr.url).to.equal('/foo');
       expect(fakeXhr.method).to.equal('POST');
-      expect(fakeXhr.requestHeaders).to.eql({ 'Content-Type': 'application/json;charset=utf-8' });
+      expect(fakeXhr.requestHeaders).to.eql({ 'Content-Type': 'application/json;charset=UTF-8' });
+    });
+
+
+    it('sends primitive value as data', () => {
+      xhr.post('/foo', 123);
+      expect(sent[0]).to.equal(123);
+      expect(sent.length).to.equal(1);
+    });
+
+
+    it('sends object data as JSON string', () => {
+      xhr.post('/foo', { foo:123 });
+      expect(sent[0]).to.equal(JSON.stringify({ foo:123 }));
     });
 
 

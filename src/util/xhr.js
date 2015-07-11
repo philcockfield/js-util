@@ -9,8 +9,10 @@ import Promise from 'bluebird';
 export class XhrError extends Error {
   constructor(xhr, message) {
     super();
-    this.message = message || 'Failed while making Http request to server.';
+    if (_.isEmpty(message)) { message = 'Failed while making Http request to server.'; }
+    this.message = message;
     this.status = xhr.status;
+    this.statusText = xhr.statusText;
   }
 }
 
@@ -35,7 +37,7 @@ const isJson = (text) => {
 const handleComplete = (xhr, resolve, reject) => {
     if (xhr.status !== 200) {
       // Failed.
-      reject(new XhrError(xhr));
+      reject(new XhrError(xhr, xhr.responseText));
 
     } else {
 
@@ -43,7 +45,10 @@ const handleComplete = (xhr, resolve, reject) => {
       let response = xhr.responseText;
       if (isJson(response)) {
         try { response = JSON.parse(response); }
-        catch (err) { reject(new XhrParseError(xhr, err)); }
+        catch (err) {
+          reject(new XhrParseError(xhr, err));
+          return;
+        }
       }
       resolve(response);
     }
