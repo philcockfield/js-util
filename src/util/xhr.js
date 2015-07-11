@@ -28,6 +28,7 @@ export class XhrParseError extends Error {
 
 
 const isJson = (text) => {
+  if (_.isEmpty(text)) { return false; }
   if (text.startsWith('{') && text.endsWith('}')) { return true; }
   if (text.startsWith('[') && text.endsWith(']')) { return true; }
   return false;

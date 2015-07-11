@@ -38,6 +38,28 @@ describe('Http (XmlHttpRequest)', () => {
       });
 
 
+      it('resolves promise with `undefined`', (done) => {
+        xhr.get('/foo').then((result) => {
+            expect(result).to.equal(null);
+            done();
+        });
+        fakeXhr.status = 200;
+        fakeXhr.onload();
+      });
+
+
+      it('resolves promise with `null`', (done) => {
+        xhr.get('/foo').then((result) => {
+            expect(result).to.equal(null);
+            done();
+        });
+        fakeXhr.responseText = null;
+        fakeXhr.status = 200;
+        fakeXhr.onload();
+      });
+
+
+
       it('throws an [XhrError] when status code is not 200', (done) => {
         xhr.get('/foo')
         .catch(XhrError, (err) => {
