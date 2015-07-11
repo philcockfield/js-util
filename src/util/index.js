@@ -1,5 +1,6 @@
 import * as util from './util';
 import * as color from './color';
+import xhr from './xhr';
 import Handlers from './Handlers';
 import LocalStorage from './LocalStorage';
 
@@ -13,6 +14,8 @@ export default {
   functionParameters: util.functionParameters,
 
   color: color,
+  xhr: xhr,
+
   Handlers: Handlers,
   LocalStorage: LocalStorage
 };
