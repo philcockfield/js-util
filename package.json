@@ -1,6 +1,6 @@
 {
   "name": "js-util",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Common JS helpers.",
   "main": "./dist/util/index.js",
   "dependencies": {
