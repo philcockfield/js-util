@@ -2,7 +2,7 @@
   "name": "js-util",
   "version": "0.0.6",
   "description": "Common JS helpers.",
-  "main": "./src/util/index.js",
+  "main": "./dist/util/index.js",
   "dependencies": {
     "lodash": "^3.6.0",
     "bluebird": "^2.9.33"
