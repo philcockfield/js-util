@@ -95,7 +95,24 @@ var handleComplete = function handleComplete(xhr, resolve, reject) {
   }
 };
 
-var http = {
+var send = function send(verb, url, data) {
+  return new _bluebird2['default'](function (resolve, reject) {
+    var xhr = api.createXhr();
+    xhr.open(verb, url);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        handleComplete(xhr, resolve, reject);
+      }
+    };
+    if (_lodash2['default'].isObject(data)) {
+      data = JSON.stringify(data);
+    }
+    xhr.send(data);
+  });
+};
+
+var api = {
   XhrError: XhrError,
   XhrParseError: XhrParseError,
 
@@ -115,7 +132,7 @@ var http = {
   */
   get: function get(url) {
     return new _bluebird2['default'](function (resolve, reject) {
-      var xhr = http.createXhr();
+      var xhr = api.createXhr();
       xhr.open('GET', url, true);
       xhr.onload = function () {
         return handleComplete(xhr, resolve, reject);
@@ -126,25 +143,47 @@ var http = {
 
   /**
   * Performs a POST operation against the given URL.
-  * @param url: URL of the resource.
+  *
+  *   In REST/Resource-Oriented systems the POST verb
+  *   means "create a new resource".
+  *
+  * @param url:   URL of the resource.
+  * @param data:  The data to send (a primitive value or an object,
+  *               will be transformed and sent as JSON).
   * @return promise.
   */
   post: function post(url, data) {
-    return new _bluebird2['default'](function (resolve, reject) {
-      var xhr = http.createXhr();
-      xhr.open('POST', url);
-      xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          handleComplete(xhr, resolve, reject);
-        }
-      };
-      if (_lodash2['default'].isObject(data)) {
-        data = JSON.stringify(data);
-      }
-      xhr.send(data);
-    });
+    return send('POST', url, data);
+  },
+
+  /**
+  * Performs a PUT operation against the given URL.
+  *
+  *   In REST/Resource-Oriented systems the PUT verb
+  *   means "update a resource".
+  *
+  * @param url:   URL of the resource.
+  * @param data:  The data to send (a primitive value or an object,
+  *               will be transformed and sent as JSON).
+  * @return promise.
+  */
+  put: function put(url, data) {
+    return send('PUT', url, data);
+  },
+
+  /**
+  * Performs a DELETE operation against the given URL.
+  *
+  *   In REST/Resource-Oriented systems the DELETE verb
+  *   means "remove the resource".
+  *
+  * @param url:   URL of the resource.
+  * @return promise.
+  */
+  'delete': function _delete(url) {
+    return send('DELETE', url);
   }
+
 };
 
-exports['default'] = http;
+exports['default'] = api;

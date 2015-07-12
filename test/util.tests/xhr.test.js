@@ -172,4 +172,98 @@ describe('Http (XmlHttpRequest)', () => {
     });
   });
 
+
+
+  describe('put()', () => {
+    it('stores PUT state on the Xhr object', () => {
+      xhr.put('/foo', 123);
+      expect(fakeXhr.url).to.equal('/foo');
+      expect(fakeXhr.method).to.equal('PUT');
+      expect(fakeXhr.requestHeaders).to.eql({ 'Content-Type': 'application/json;charset=UTF-8' });
+    });
+
+
+    it('sends primitive value as data', () => {
+      xhr.put('/foo', 123);
+      expect(sent[0]).to.equal(123);
+      expect(sent.length).to.equal(1);
+    });
+
+
+    it('sends object data as JSON string', () => {
+      xhr.put('/foo', { foo:123 });
+      expect(sent[0]).to.equal(JSON.stringify({ foo:123 }));
+    });
+
+
+    it('resolves promise with `responseText` (string)', (done) => {
+      xhr.put('/foo', { foo:123 }).then((result) => {
+          expect(result).to.equal('my-post');
+          done();
+      });
+      fakeXhr.responseText = 'my-post';
+      fakeXhr.status = 200;
+      fakeXhr.readyState = 4;
+      fakeXhr.onreadystatechange();
+    });
+
+
+    it('resolves promise with JSON', (done) => {
+      xhr.put('/foo').then((result) => {
+          expect(result).to.eql({ foo:123 });
+          done();
+      });
+      fakeXhr.responseText = JSON.stringify({ foo:123 });
+      fakeXhr.status = 200;
+      fakeXhr.readyState = 4;
+      fakeXhr.onreadystatechange();
+    });
+
+
+    it('throws an [XhrError] when status code is not 200', (done) => {
+      xhr.put('/foo')
+      .catch(XhrError, (err) => {
+          expect(err.message).to.equal('Failed while making Http request to server.');
+          expect(err.status).to.equal(500);
+          done()
+      });
+      fakeXhr.status = 500;
+      fakeXhr.readyState = 4;
+      fakeXhr.onreadystatechange();
+    });
+  });
+
+
+  describe('delete()', () => {
+    it('stores DELETE state on the Xhr object', () => {
+      xhr.delete('/foo');
+      expect(fakeXhr.url).to.equal('/foo');
+      expect(fakeXhr.method).to.equal('DELETE');
+    });
+
+
+    it('resolves promise with JSON', (done) => {
+      xhr.delete('/foo').then((result) => {
+          expect(result).to.eql({ isDeleted:true });
+          done();
+      });
+      fakeXhr.responseText = JSON.stringify({ isDeleted:true });
+      fakeXhr.status = 200;
+      fakeXhr.readyState = 4;
+      fakeXhr.onreadystatechange();
+    });
+
+
+    it('throws an [XhrError] when status code is not 200', (done) => {
+      xhr.delete('/foo')
+      .catch(XhrError, (err) => {
+          expect(err.message).to.equal('Failed while making Http request to server.');
+          expect(err.status).to.equal(500);
+          done()
+      });
+      fakeXhr.status = 500;
+      fakeXhr.readyState = 4;
+      fakeXhr.onreadystatechange();
+    });
+  });
 });
