@@ -34,7 +34,8 @@ describe('Http (XmlHttpRequest)', () => {
         });
         fakeXhr.responseText = 'my-get';
         fakeXhr.status = 200;
-        fakeXhr.onload();
+        fakeXhr.readyState = 4;
+        fakeXhr.onreadystatechange();
       });
 
 
@@ -44,7 +45,8 @@ describe('Http (XmlHttpRequest)', () => {
             done();
         });
         fakeXhr.status = 200;
-        fakeXhr.onload();
+        fakeXhr.readyState = 4;
+        fakeXhr.onreadystatechange();
       });
 
 
@@ -55,7 +57,8 @@ describe('Http (XmlHttpRequest)', () => {
         });
         fakeXhr.responseText = null;
         fakeXhr.status = 200;
-        fakeXhr.onload();
+        fakeXhr.readyState = 4;
+        fakeXhr.onreadystatechange();
       });
 
 
@@ -68,7 +71,8 @@ describe('Http (XmlHttpRequest)', () => {
             done()
         });
         fakeXhr.status = 500;
-        fakeXhr.onload();
+        fakeXhr.readyState = 4;
+        fakeXhr.onreadystatechange();
       });
     });
 
@@ -81,7 +85,8 @@ describe('Http (XmlHttpRequest)', () => {
         });
         fakeXhr.responseText = JSON.stringify({ foo:123 });
         fakeXhr.status = 200;
-        fakeXhr.onload();
+        fakeXhr.readyState = 4;
+        fakeXhr.onreadystatechange();
       });
 
 
@@ -92,7 +97,8 @@ describe('Http (XmlHttpRequest)', () => {
         });
         fakeXhr.responseText = JSON.stringify([1, 2, 3]);
         fakeXhr.status = 200;
-        fakeXhr.onload();
+        fakeXhr.readyState = 4;
+        fakeXhr.onreadystatechange();
       });
 
 
@@ -106,7 +112,8 @@ describe('Http (XmlHttpRequest)', () => {
         });
         fakeXhr.responseText = '{not-json}';
         fakeXhr.status = 200;
-        fakeXhr.onload();
+        fakeXhr.readyState = 4;
+        fakeXhr.onreadystatechange();
       });
     });
   });

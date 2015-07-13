@@ -94,14 +94,7 @@ let api = {
   * @param url: URL of the resource.
   * @return promise.
   */
-  get(url) {
-    return new Promise((resolve, reject) => {
-        let xhr = api.createXhr();
-        xhr.open('GET', url, true);
-        xhr.onload = () => handleComplete(xhr, resolve, reject);
-        xhr.send();
-    });
-  },
+  get(url, data) { return send('GET', url, data); },
 
 
   /**

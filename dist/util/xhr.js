@@ -130,15 +130,8 @@ var api = {
   * @param url: URL of the resource.
   * @return promise.
   */
-  get: function get(url) {
-    return new _bluebird2['default'](function (resolve, reject) {
-      var xhr = api.createXhr();
-      xhr.open('GET', url, true);
-      xhr.onload = function () {
-        return handleComplete(xhr, resolve, reject);
-      };
-      xhr.send();
-    });
+  get: function get(url, data) {
+    return send('GET', url, data);
   },
 
   /**
