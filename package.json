@@ -20,7 +20,8 @@
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register",
-    "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register --watch"
+    "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register --watch",
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",

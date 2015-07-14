@@ -115,10 +115,14 @@ exports.delay = delay;
 *
 * @param root:      The root object.
 * @param namespace: The dot-delimited NS string (excluding the root object).
+* @param options:
+*           - delimiter: The namespace delimiter. Default "."
 *
 * @returns the child object of the namespace.
 */
 var ns = function ns(root, namespace) {
+  var options = arguments[2] === undefined ? {} : arguments[2];
+
   if (_lodash2['default'].isString(root) || _lodash2['default'].isArray(root)) {
     namespace = root;
     root = null;
@@ -126,6 +130,7 @@ var ns = function ns(root, namespace) {
   if (isBlank(namespace)) {
     return;
   }
+  var delimiter = options.delimiter || '.';
 
   var getOrCreate = function getOrCreate(parent, name) {
     parent[name] = parent[name] || {};
@@ -143,7 +148,7 @@ var ns = function ns(root, namespace) {
 
   // Build the namespace.
   if (!_lodash2['default'].isArray(namespace)) {
-    namespace = namespace.split('.');
+    namespace = namespace.split(delimiter);
   }
   return add(root, namespace);
 };

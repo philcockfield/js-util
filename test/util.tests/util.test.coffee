@@ -147,6 +147,13 @@ describe 'ns (namespace)', ->
     expect(foo).to.be.an 'object'
     expect(root.path.foo).to.exist
 
+  it 'uses a custom delimiter (/)', ->
+    root = {}
+    bar = util.ns(root, 'path/foo/bar', { delimiter:'/'})
+    expect(bar).to.be.an 'object'
+    expect(root.path.foo.bar).to.exist
+
+
   it 'retrieves the same object', ->
     root = {}
     foo1 = util.ns(root, 'path.foo')

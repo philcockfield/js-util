@@ -10,7 +10,7 @@ import _ from 'lodash';
 *   - empty-string.
 *   - empty-array
 */
-export var isBlank = (value) => {
+export const isBlank = (value) => {
   if (value === null || value === undefined) { return true; }
   if (_.isArray(value) && _.compact(value).length === 0) { return true; }
   if (_.isString(value) && _.trim(value) === '') { return true; }
@@ -27,7 +27,7 @@ export var isBlank = (value) => {
 * @param value: The value to examine.
 * @returns true if the value is a number.
 */
-export var isNumeric = (value) => {
+export const isNumeric = (value) => {
   if (isBlank(value)) { return false; }
   var number = parseFloat(value);
   if (number === undefined) { return false; }
@@ -42,7 +42,7 @@ export var isNumeric = (value) => {
 * @param value: The value to convert.
 * @returns the converted boolean, otherwise the original value.
 */
-export var toBool = (value) => {
+export const toBool = (value) => {
   if (!value) { return value; }
   if (_.isBoolean(value)) { return value; }
   let asString = _.trim(value.toString()).toLowerCase();
@@ -62,7 +62,7 @@ export var toBool = (value) => {
 * @returns  The timer handle.
 *           Use the [stop] method to cancel the timer.
 */
-export var delay = (msecs, func) => {
+export const delay = (msecs, func) => {
   // Check parameters.
   if (_.isFunction(msecs)) {
     func = msecs;
@@ -84,22 +84,24 @@ export var delay = (msecs, func) => {
 *
 * @param root:      The root object.
 * @param namespace: The dot-delimited NS string (excluding the root object).
+* @param options:
+*           - delimiter: The namespace delimiter. Default "."
 *
 * @returns the child object of the namespace.
 */
-export var ns = (root, namespace) => {
+export const ns = (root, namespace, options = {}) => {
   if (_.isString(root) || _.isArray(root)) {
     namespace = root;
     root = null;
   }
   if (isBlank(namespace)) { return; }
 
-  var getOrCreate = (parent, name) => {
+  let getOrCreate = (parent, name) => {
           parent[name] = parent[name] || {};
           return parent[name];
         };
 
-  var add = (parent, parts) => {
+  let add = (parent, parts) => {
         let part = getOrCreate(parent, parts[0]);
         if (parts.length > 1) {
           parts.splice(0, 1);
@@ -109,7 +111,8 @@ export var ns = (root, namespace) => {
       };
 
   // Build the namespace.
-  if (!_.isArray(namespace)) { namespace = namespace.split('.'); }
+  let delimiter = options.delimiter || '.';
+  if (!_.isArray(namespace)) { namespace = namespace.split(delimiter); }
   return add(root, namespace);
 };
 
@@ -124,7 +127,7 @@ export var ns = (root, namespace) => {
   @returns an array of strings.
 
 */
-export var functionParameters = (func) => {
+export const functionParameters = (func) => {
   const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
   const ARGUMENT_NAMES = /([^\s,]+)/g;
 
