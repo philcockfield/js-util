@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+let foo = {abc:111}
 
 /*
   Converts an alpha value into an `argb` color.

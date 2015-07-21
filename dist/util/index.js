@@ -16,10 +16,6 @@ var _color = require('./color');
 
 var color = _interopRequireWildcard(_color);
 
-var _xhr = require('./xhr');
-
-var _xhr2 = _interopRequireDefault(_xhr);
-
 var _Handlers = require('./Handlers');
 
 var _Handlers2 = _interopRequireDefault(_Handlers);
@@ -37,7 +33,6 @@ exports['default'] = {
   functionParameters: util.functionParameters,
 
   color: color,
-  xhr: _xhr2['default'],
 
   Handlers: _Handlers2['default'],
   LocalStorage: _LocalStorage2['default']

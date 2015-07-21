@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { FakeXMLHttpRequest } from 'sinon';
-import { http } from '../../';
+import http from '../../src/http/http-browser';
 const { HttpError, HttpParseError } = http;
 
 

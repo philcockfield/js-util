@@ -130,7 +130,6 @@ var ns = function ns(root, namespace) {
   if (isBlank(namespace)) {
     return;
   }
-  var delimiter = options.delimiter || '.';
 
   var getOrCreate = function getOrCreate(parent, name) {
     parent[name] = parent[name] || {};
@@ -147,6 +146,7 @@ var ns = function ns(root, namespace) {
   };
 
   // Build the namespace.
+  var delimiter = options.delimiter || '.';
   if (!_lodash2['default'].isArray(namespace)) {
     namespace = namespace.split(delimiter);
   }

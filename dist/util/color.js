@@ -10,6 +10,8 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var foo = { abc: 111 };
+
 /*
   Converts an alpha value into an `argb` color.
   @param value: The alpha value
