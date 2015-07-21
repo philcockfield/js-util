@@ -1,16 +1,16 @@
 import { expect } from 'chai';
 import { FakeXMLHttpRequest } from 'sinon';
-import { xhr } from '../../';
-const { HttpError, XhrParseError } = xhr;
+import { http } from '../../';
+const { HttpError, HttpParseError } = http;
 
 
 
-describe('Http (XmlHttpRequest)', () => {
+describe('Http (Browser/XmlHttpRequest)', () => {
   let fakeXhr, sent;
 
   beforeEach(() => {
     sent = [];
-    xhr.createXhr = () => {
+    http.createXhr = () => {
         fakeXhr = new FakeXMLHttpRequest();
         fakeXhr.send = (data) => { sent.push(data) };
         return fakeXhr;
@@ -21,14 +21,14 @@ describe('Http (XmlHttpRequest)', () => {
   describe('get()', () => {
     describe('response-text', () => {
       it('stores GET state on the Xhr object', () => {
-        xhr.get('/foo');
+        http.get('/foo');
         expect(fakeXhr.url).to.equal('/foo');
         expect(fakeXhr.method).to.equal('GET');
       });
 
 
       it('resolves promise with `responseText` (string)', (done) => {
-        xhr.get('/foo').then((result) => {
+        http.get('/foo').then((result) => {
             expect(result).to.equal('my-get');
             done();
         });
@@ -40,7 +40,7 @@ describe('Http (XmlHttpRequest)', () => {
 
 
       it('resolves promise with `undefined`', (done) => {
-        xhr.get('/foo').then((result) => {
+        http.get('/foo').then((result) => {
             expect(result).to.equal(null);
             done();
         });
@@ -51,7 +51,7 @@ describe('Http (XmlHttpRequest)', () => {
 
 
       it('resolves promise with `null`', (done) => {
-        xhr.get('/foo').then((result) => {
+        http.get('/foo').then((result) => {
             expect(result).to.equal(null);
             done();
         });
@@ -64,7 +64,7 @@ describe('Http (XmlHttpRequest)', () => {
 
 
       it('throws an [HttpError] when status code is not 200', (done) => {
-        xhr.get('/foo')
+        http.get('/foo')
         .catch(HttpError, (err) => {
             expect(err.message).to.equal('Failed while making Http request to server.');
             expect(err.status).to.equal(500);
@@ -79,7 +79,7 @@ describe('Http (XmlHttpRequest)', () => {
 
     describe('json', (done) => {
       it('resolves promise with JSON object', (done) => {
-        xhr.get('/foo').then((result) => {
+        http.get('/foo').then((result) => {
             expect(result).to.eql({ foo:123 });
             done();
         });
@@ -91,7 +91,7 @@ describe('Http (XmlHttpRequest)', () => {
 
 
       it('resolves promise with JSON array', (done) => {
-        xhr.get('/foo').then((result) => {
+        http.get('/foo').then((result) => {
             expect(result).to.eql([1, 2, 3]);
             done();
         });
@@ -103,8 +103,8 @@ describe('Http (XmlHttpRequest)', () => {
 
 
       it('throws if the response cannot be parsed as JSON', (done) => {
-        xhr.get('/foo')
-        .catch(XhrParseError, (err) => {
+        http.get('/foo')
+        .catch(HttpParseError, (err) => {
             expect(err.message).to.equal(`Failed to parse: '{not-json}'`);
             expect(err.responseText).to.equal('{not-json}');
             expect(err.parseError.message).to.equal('Unexpected token n');
@@ -122,7 +122,7 @@ describe('Http (XmlHttpRequest)', () => {
 
   describe('post()', () => {
     it('stores POST state on the Xhr object', () => {
-      xhr.post('/foo', 123);
+      http.post('/foo', 123);
       expect(fakeXhr.url).to.equal('/foo');
       expect(fakeXhr.method).to.equal('POST');
       expect(fakeXhr.requestHeaders).to.eql({ 'Content-Type': 'application/json;charset=UTF-8' });
@@ -130,20 +130,20 @@ describe('Http (XmlHttpRequest)', () => {
 
 
     it('sends primitive value as data', () => {
-      xhr.post('/foo', 123);
+      http.post('/foo', 123);
       expect(sent[0]).to.equal(123);
       expect(sent.length).to.equal(1);
     });
 
 
     it('sends object data as JSON string', () => {
-      xhr.post('/foo', { foo:123 });
+      http.post('/foo', { foo:123 });
       expect(sent[0]).to.equal(JSON.stringify({ foo:123 }));
     });
 
 
     it('resolves promise with `responseText` (string)', (done) => {
-      xhr.post('/foo', { foo:123 }).then((result) => {
+      http.post('/foo', { foo:123 }).then((result) => {
           expect(result).to.equal('my-post');
           done();
       });
@@ -155,7 +155,7 @@ describe('Http (XmlHttpRequest)', () => {
 
 
     it('resolves promise with JSON', (done) => {
-      xhr.post('/foo').then((result) => {
+      http.post('/foo').then((result) => {
           expect(result).to.eql({ foo:123 });
           done();
       });
@@ -167,7 +167,7 @@ describe('Http (XmlHttpRequest)', () => {
 
 
     it('throws an [HttpError] when status code is not 200', (done) => {
-      xhr.post('/foo')
+      http.post('/foo')
       .catch(HttpError, (err) => {
           expect(err.message).to.equal('Failed while making Http request to server.');
           expect(err.status).to.equal(500);
@@ -183,7 +183,7 @@ describe('Http (XmlHttpRequest)', () => {
 
   describe('put()', () => {
     it('stores PUT state on the Xhr object', () => {
-      xhr.put('/foo', 123);
+      http.put('/foo', 123);
       expect(fakeXhr.url).to.equal('/foo');
       expect(fakeXhr.method).to.equal('PUT');
       expect(fakeXhr.requestHeaders).to.eql({ 'Content-Type': 'application/json;charset=UTF-8' });
@@ -191,20 +191,20 @@ describe('Http (XmlHttpRequest)', () => {
 
 
     it('sends primitive value as data', () => {
-      xhr.put('/foo', 123);
+      http.put('/foo', 123);
       expect(sent[0]).to.equal(123);
       expect(sent.length).to.equal(1);
     });
 
 
     it('sends object data as JSON string', () => {
-      xhr.put('/foo', { foo:123 });
+      http.put('/foo', { foo:123 });
       expect(sent[0]).to.equal(JSON.stringify({ foo:123 }));
     });
 
 
     it('resolves promise with `responseText` (string)', (done) => {
-      xhr.put('/foo', { foo:123 }).then((result) => {
+      http.put('/foo', { foo:123 }).then((result) => {
           expect(result).to.equal('my-post');
           done();
       });
@@ -216,7 +216,7 @@ describe('Http (XmlHttpRequest)', () => {
 
 
     it('resolves promise with JSON', (done) => {
-      xhr.put('/foo').then((result) => {
+      http.put('/foo').then((result) => {
           expect(result).to.eql({ foo:123 });
           done();
       });
@@ -228,7 +228,7 @@ describe('Http (XmlHttpRequest)', () => {
 
 
     it('throws an [HttpError] when status code is not 200', (done) => {
-      xhr.put('/foo')
+      http.put('/foo')
       .catch(HttpError, (err) => {
           expect(err.message).to.equal('Failed while making Http request to server.');
           expect(err.status).to.equal(500);
@@ -243,14 +243,14 @@ describe('Http (XmlHttpRequest)', () => {
 
   describe('delete()', () => {
     it('stores DELETE state on the Xhr object', () => {
-      xhr.delete('/foo');
+      http.delete('/foo');
       expect(fakeXhr.url).to.equal('/foo');
       expect(fakeXhr.method).to.equal('DELETE');
     });
 
 
     it('resolves promise with JSON', (done) => {
-      xhr.delete('/foo').then((result) => {
+      http.delete('/foo').then((result) => {
           expect(result).to.eql({ isDeleted:true });
           done();
       });
@@ -262,7 +262,7 @@ describe('Http (XmlHttpRequest)', () => {
 
 
     it('throws an [HttpError] when status code is not 200', (done) => {
-      xhr.delete('/foo')
+      http.delete('/foo')
       .catch(HttpError, (err) => {
           expect(err.message).to.equal('Failed while making Http request to server.');
           expect(err.status).to.equal(500);

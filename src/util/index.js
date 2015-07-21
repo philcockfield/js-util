@@ -1,6 +1,6 @@
 import * as util from './util';
 import * as color from './color';
-import xhr from './xhr';
+import httpBrowser from './http-browser';
 import Handlers from './Handlers';
 import LocalStorage from './LocalStorage';
 
@@ -14,7 +14,7 @@ export default {
   functionParameters: util.functionParameters,
 
   color: color,
-  xhr: xhr,
+  http: httpBrowser,
 
   Handlers: Handlers,
   LocalStorage: LocalStorage

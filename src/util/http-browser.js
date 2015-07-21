@@ -4,8 +4,8 @@ import Promise from 'bluebird';
 
 
 /**
-* Describes an error that occured during an XMLHttpRequest operation.
-*/
+ * Describes an error that occured during an XMLHttpRequest operation.
+ */
 export class HttpError extends Error {
   constructor(status, message, statusText) {
     super();
@@ -17,12 +17,16 @@ export class HttpError extends Error {
 }
 
 
-export class XhrParseError extends Error {
-  constructor(xhr, err) {
+/**
+ * Describes an error resulting from parsing response
+ * data from an HTTP request.
+ */
+export class HttpParseError extends Error {
+  constructor(responseText, parseError) {
     super();
-    this.message = `Failed to parse: '${ xhr.responseText }'`;
-    this.responseText = xhr.responseText;
-    this.parseError = err;
+    this.message = `Failed to parse: '${ responseText }'`;
+    this.responseText = responseText;
+    this.parseError = parseError;
   }
 }
 
@@ -47,7 +51,7 @@ const handleComplete = (xhr, resolve, reject) => {
       if (isJson(response)) {
         try { response = JSON.parse(response); }
         catch (err) {
-          reject(new XhrParseError(xhr, err));
+          reject(new HttpParseError(xhr.responseText, err));
           return;
         }
       }
@@ -77,7 +81,7 @@ const send = (verb, url, data) => {
 
 let api = {
   HttpError: HttpError,
-  XhrParseError: XhrParseError,
+  HttpParseError: HttpParseError,
 
   /**
   * Factory for the XHR object.
