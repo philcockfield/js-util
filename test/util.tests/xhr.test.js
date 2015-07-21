@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { FakeXMLHttpRequest } from 'sinon';
 import { xhr } from '../../';
-const { XhrError, XhrParseError } = xhr;
+const { HttpError, XhrParseError } = xhr;
 
 
 
@@ -63,9 +63,9 @@ describe('Http (XmlHttpRequest)', () => {
 
 
 
-      it('throws an [XhrError] when status code is not 200', (done) => {
+      it('throws an [HttpError] when status code is not 200', (done) => {
         xhr.get('/foo')
-        .catch(XhrError, (err) => {
+        .catch(HttpError, (err) => {
             expect(err.message).to.equal('Failed while making Http request to server.');
             expect(err.status).to.equal(500);
             done()
@@ -166,9 +166,9 @@ describe('Http (XmlHttpRequest)', () => {
     });
 
 
-    it('throws an [XhrError] when status code is not 200', (done) => {
+    it('throws an [HttpError] when status code is not 200', (done) => {
       xhr.post('/foo')
-      .catch(XhrError, (err) => {
+      .catch(HttpError, (err) => {
           expect(err.message).to.equal('Failed while making Http request to server.');
           expect(err.status).to.equal(500);
           done()
@@ -227,9 +227,9 @@ describe('Http (XmlHttpRequest)', () => {
     });
 
 
-    it('throws an [XhrError] when status code is not 200', (done) => {
+    it('throws an [HttpError] when status code is not 200', (done) => {
       xhr.put('/foo')
-      .catch(XhrError, (err) => {
+      .catch(HttpError, (err) => {
           expect(err.message).to.equal('Failed while making Http request to server.');
           expect(err.status).to.equal(500);
           done()
@@ -261,9 +261,9 @@ describe('Http (XmlHttpRequest)', () => {
     });
 
 
-    it('throws an [XhrError] when status code is not 200', (done) => {
+    it('throws an [HttpError] when status code is not 200', (done) => {
       xhr.delete('/foo')
-      .catch(XhrError, (err) => {
+      .catch(HttpError, (err) => {
           expect(err.message).to.equal('Failed while making Http request to server.');
           expect(err.status).to.equal(500);
           done()

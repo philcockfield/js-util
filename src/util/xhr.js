@@ -6,13 +6,13 @@ import Promise from 'bluebird';
 /**
 * Describes an error that occured during an XMLHttpRequest operation.
 */
-export class XhrError extends Error {
-  constructor(xhr, message) {
+export class HttpError extends Error {
+  constructor(status, message, statusText) {
     super();
     if (_.isEmpty(message)) { message = 'Failed while making Http request to server.'; }
     this.message = message;
-    this.status = xhr.status;
-    this.statusText = xhr.statusText;
+    this.status = status;
+    this.statusText = statusText;
   }
 }
 
@@ -38,7 +38,7 @@ const isJson = (text) => {
 const handleComplete = (xhr, resolve, reject) => {
     if (xhr.status !== 200) {
       // Failed.
-      reject(new XhrError(xhr, xhr.responseText));
+      reject(new HttpError(xhr.status, xhr.responseText, xhr.statusText));
 
     } else {
 
@@ -76,7 +76,7 @@ const send = (verb, url, data) => {
 
 
 let api = {
-  XhrError: XhrError,
+  HttpError: HttpError,
   XhrParseError: XhrParseError,
 
   /**
