@@ -1,5 +1,5 @@
 expect = require('chai').expect
-util = require('../util')
+util = require('../src')
 
 
 describe 'util.isBlank', ->
