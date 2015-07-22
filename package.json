@@ -2,7 +2,7 @@
   "name": "js-util",
   "version": "0.0.10",
   "description": "Common JS helpers.",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "dependencies": {
     "lodash": "^3.6.0"
   },
