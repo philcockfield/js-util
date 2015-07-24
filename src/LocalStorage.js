@@ -1,5 +1,5 @@
 /* global localStorage */
-import _ from 'lodash';
+import _ from "lodash";
 
 
 // NB: `localStorage` will not be available when
@@ -51,15 +51,15 @@ export var prop = (key, value, options = {}) => {
     // WRITE.
     var type;
     if (_.isString(value)) {
-      type = 'string';
+      type = "string";
     } else if (_.isBoolean(value)) {
-      type = 'bool';
+      type = "bool";
     } else if (_.isNumber(value)) {
-      type = 'number';
+      type = "number";
     } else if (_.isDate(value)) {
-      type = 'date';
+      type = "date";
     } else {
-      type = 'object';
+      type = "object";
     }
 
     var writeValue = { value: value, type: type };
@@ -72,21 +72,21 @@ export var prop = (key, value, options = {}) => {
     if (json) {
       json = JSON.parse(json);
       switch (json.type) {
-        case 'null':
-        case 'bool':
-        case 'string':
+        case "null":
+        case "bool":
+        case "string":
           value = json.value;
           break;
 
-        case 'number':
+        case "number":
           value = json.value.toNumber();
           break;
 
-        case 'date':
+        case "date":
           value = new Date(json.value);
           break;
 
-        case 'object':
+        case "object":
           value = json.value;
           break;
       }

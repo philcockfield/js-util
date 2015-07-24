@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from "lodash";
 
 
 
@@ -53,7 +53,7 @@ export default class Handlers {
     }
   }
 
-  // Alias to 'add'.
+  // Alias to "add".
   push(func) { return this.add(func); }
 
 

@@ -1,21 +1,21 @@
-'use strict'
-var gulp = require('gulp');
-var eslint = require('gulp-eslint');
-var babel = require('gulp-babel');
-var SOURCE_PATH = './src/**/*.js';
+"use strict"
+var gulp = require("gulp");
+var eslint = require("gulp-eslint");
+var babel = require("gulp-babel");
+var SOURCE_PATH = "./src/**/*.js";
 
 
-gulp.task('build', function () {
+gulp.task("build", function () {
   return gulp.src(SOURCE_PATH)
     .pipe(babel())
-    .pipe(gulp.dest('lib'));
+    .pipe(gulp.dest("lib"));
 });
-gulp.task('watch', function(callback) { gulp.watch(SOURCE_PATH, ['build']) });
+gulp.task("watch", function(callback) { gulp.watch(SOURCE_PATH, ["build"]) });
 
 
 
 
-gulp.task('lint', function() {
+gulp.task("lint", function() {
   return gulp.src(SOURCE_PATH)
     .pipe(eslint())
     .pipe(eslint.format());
@@ -23,4 +23,4 @@ gulp.task('lint', function() {
 
 
 
-gulp.task('default', ['build', 'watch']);
+gulp.task("default", ["build", "watch"]);

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from "lodash";
 
 
 /*
@@ -19,7 +19,7 @@ export var fromAlpha = (value) => {
   if (value > 1) { value = 1; }
 
   if (value === 0) {
-    return 'transparent';
+    return "transparent";
 
   } else if (value < 0) {
     return `rgba(0, 0, 0, ${ Math.abs(value) })`;

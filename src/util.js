@@ -1,5 +1,5 @@
 /* global setTimeout, clearTimeout */
-import _ from 'lodash';
+import _ from "lodash";
 
 
 /**
@@ -13,7 +13,7 @@ import _ from 'lodash';
 export const isBlank = (value) => {
   if (value === null || value === undefined) { return true; }
   if (_.isArray(value) && _.compact(value).length === 0) { return true; }
-  if (_.isString(value) && _.trim(value) === '') { return true; }
+  if (_.isString(value) && _.trim(value) === "") { return true; }
   return false;
 };
 
@@ -46,8 +46,8 @@ export const toBool = (value) => {
   if (!value) { return value; }
   if (_.isBoolean(value)) { return value; }
   let asString = _.trim(value.toString()).toLowerCase();
-  if (asString === 'true') { return true; }
-  if (asString === 'false') { return false; }
+  if (asString === "true") { return true; }
+  if (asString === "false") { return false; }
   return value;
 };
 
@@ -68,14 +68,14 @@ export const delay = (msecs, func) => {
     func = msecs;
     msecs = 0; // Immediate "defer" when no milliseconds value specified.
   }
-  if (!_.isFunction) { return; }
-
-  // Return an object with the running timer.
-  return {
-    msecs: msecs,
-    id: setTimeout(func, msecs),
-    stop() { clearTimeout(this.id); }
-  };
+  if (_.isFunction(func)) {
+    // Return an object with the running timer.
+    return {
+      msecs: msecs,
+      id: setTimeout(func, msecs),
+      stop() { clearTimeout(this.id); }
+    };
+  }
 };
 
 
@@ -94,7 +94,7 @@ export const ns = (root, namespace, options = {}) => {
     namespace = root;
     root = null;
   }
-  if (isBlank(namespace)) { return; }
+  if (isBlank(namespace)) { return undefined; }
 
   let getOrCreate = (parent, name) => {
           parent[name] = parent[name] || {};
@@ -111,7 +111,7 @@ export const ns = (root, namespace, options = {}) => {
       };
 
   // Build the namespace.
-  let delimiter = options.delimiter || '.';
+  let delimiter = options.delimiter || ".";
   if (!_.isArray(namespace)) { namespace = namespace.split(delimiter); }
   return add(root, namespace);
 };
@@ -132,8 +132,7 @@ export const functionParameters = (func) => {
   const ARGUMENT_NAMES = /([^\s,]+)/g;
 
   if (!_.isFunction(func)) { return []; }
-  let fnStr = func.toString().replace(STRIP_COMMENTS, '');
-  let result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
-  if (result === null) { result = []; }
+  let fnStr = func.toString().replace(STRIP_COMMENTS, "");
+  let result = fnStr.slice(fnStr.indexOf("(") + 1, fnStr.indexOf(")")).match(ARGUMENT_NAMES);
   return result;
 };
