@@ -2,7 +2,7 @@
   "name": "js-util",
   "version": "0.0.13",
   "description": "Common JS helpers.",
-  "main": "./index.js",
+  "main": "./lib/index.js",
   "dependencies": {
     "lodash": "^3.6.0"
   },
@@ -12,6 +12,7 @@
     "chai": "^2.2.0",
     "coffee-script": "^1.9.1",
     "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
     "gulp-eslint": "^0.15.0",
     "mocha": "^2.2.1",
     "sinon": "^1.15.4"
@@ -19,7 +20,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register",
     "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register --watch",
-    "build": "gulp build"
+    "prepublish": "babel src --out-dir lib"
   },
   "repository": {
     "type": "git",
