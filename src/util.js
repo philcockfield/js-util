@@ -130,9 +130,9 @@ export const ns = (root, namespace, options = {}) => {
 export const functionParameters = (func) => {
   const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
   const ARGUMENT_NAMES = /([^\s,]+)/g;
-
   if (!_.isFunction(func)) { return []; }
   let fnStr = func.toString().replace(STRIP_COMMENTS, "");
   let result = fnStr.slice(fnStr.indexOf("(") + 1, fnStr.indexOf(")")).match(ARGUMENT_NAMES);
+  if (result === null) { result = []; }
   return result;
 };
