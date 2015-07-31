@@ -13,7 +13,7 @@ import _ from "lodash";
 
   @returns an `argb` style string.
 */
-export var fromAlpha = (value) => {
+export const fromAlpha = (value) => {
   if (!_.isNumber(value)) { return value; }
   if (value < -1) { value = -1; }
   if (value > 1) { value = 1; }
