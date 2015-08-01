@@ -1,9 +1,9 @@
 import { expect } from "chai";
-import PropTypes from "../src/PropTypes";
+import { PropTypes } from "../../src/react";
 
 
 
-describe.only("React", () => {
+describe("React", () => {
   describe("PropTypes.oneOf", () => {
     it("stores enum values on return object", () => {
       const result = PropTypes.oneOf(['one', 'two']);
