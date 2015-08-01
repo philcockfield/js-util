@@ -34,14 +34,16 @@ const store = {
 
 class LocalStorage {
   /*
-  Gets or sets the value for the given key.
-  @param key:         The unique identifier of the value (this is prefixed with the namespace).
-  @param value:       (optional). The value to set (pass null to remove).
-  @param options:
-            default:  (optional). The default value to return if the session does not contain the value (ie. undefined).
+  * Gets or sets the value for the given key.
+  *
+  * @param key:         The unique identifier of the value (this is prefixed with the namespace).
+  * @param value:       (optional). The value to set (pass null to remove).
+  * @param options:
+  *           default:  (optional). The default value to return if the session does not contain the value (ie. undefined).
+  *
+  * @return the read value.
   */
   prop(key, value, options = {}) {
-
     if (_.isNull(value)) {
       // REMOVE.
       store.removeItem(key);

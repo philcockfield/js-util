@@ -1,6 +1,6 @@
 'use strict'
 expect = require('chai').expect
-{ color } = require('../src')
+color = require('../src/color')
 
 
 

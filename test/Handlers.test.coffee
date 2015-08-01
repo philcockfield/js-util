@@ -1,8 +1,8 @@
 _ = require('lodash')
 expect = require('chai').expect
-{ Handlers } = Util = require('../src')
 
-
+Util = require('../src')
+Handlers = require('../src/Handlers')
 
 # ----------------------------------------------------------------------------
 
