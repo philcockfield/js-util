@@ -6,4 +6,5 @@ export default _.merge(util, {
   color: require("./color"),
   localStorage: require("./local-storage"),
   Handlers: require("./Handlers"),
+  PropTypes: require("./PropTypes")
 });
