@@ -3,7 +3,7 @@ import { css } from "../../src/react";
 import { image, expandImagePath } from "../../src/react/css";
 
 
-describe.only("React:css:image", () => {
+describe("React:css:image", () => {
   describe("path extraction (expandImagePath)", () => {
     it("[png] with path", () => {
       const result = expandImagePath("../foo/bar.png")
