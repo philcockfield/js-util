@@ -29,12 +29,25 @@ export const isBlank = (value) => {
 */
 export const isNumeric = (value) => {
   if (isBlank(value)) { return false; }
-  var number = parseFloat(value);
+  const number = parseFloat(value);
   if (number === undefined) { return false; }
   if (number.toString().length !== value.toString().length) { return false; }
   return !_.isNaN(number);
 };
 
+
+/**
+ * Converts a value to a number if possible.
+ * @param value: The value to convert.
+* @returns the converted number, otherwise the original value.
+ */
+export const toNumber = (value) => {
+  if (isBlank(value)) { return value; }
+  const number = parseFloat(value);
+  if (number === undefined) { return value; }
+  if (number.toString().length !== value.toString().length) { return value; }
+  return _.isNaN(number) ? value : number;
+};
 
 
 /**

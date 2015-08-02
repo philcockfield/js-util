@@ -79,6 +79,32 @@ describe("util.isNumeric", () => {
 });
 
 
+// ----------------------------------------------------------------------------
+
+
+describe.only("util.toNumber", () => {
+  it("returns the non-number value", () => {
+    const NOW = new Date();
+    const OBJECT = { foo:123 };
+    expect(util.toNumber("hello")).to.equal("hello");
+    expect(util.toNumber(OBJECT)).to.equal(OBJECT);
+    expect(util.toNumber(NOW)).to.equal(NOW);
+    expect(util.toNumber(null)).to.equal(null);
+    expect(util.toNumber(undefined)).to.equal(undefined);
+  });
+
+  it("converts a string to a number", () => {
+    expect(util.toNumber("0")).to.equal(0);
+    expect(util.toNumber("-1")).to.equal(-1);
+    expect(util.toNumber("1")).to.equal(1);
+    expect(util.toNumber("12.34")).to.equal(12.34);
+  });
+
+  it("does not convert a number/unit string toa number", () => {
+    expect(util.toNumber("10px")).to.equal("10px");
+  });
+});
+
 
 // ----------------------------------------------------------------------------
 
