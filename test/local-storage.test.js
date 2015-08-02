@@ -2,7 +2,7 @@ import { expect } from "chai";
 import localStorage from "../src/local-storage";
 
 
-describe.only("LocalStorage", () => {
+describe("LocalStorage", () => {
   describe("nothing", () => {
     it("undefined", () => {
       const KEY = "undefined-key";
