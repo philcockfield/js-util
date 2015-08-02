@@ -3,7 +3,27 @@ import { css } from "../../src/react";
 import { toPositionEdges, formatPositionEdges } from "../../src/react/css";
 
 
-describe("React: CSS - positioning", () => {
+describe.only("React: CSS - positioning", () => {
+  it("converts an 'Absolute' value (deep)", () => {
+    const style = css({ base: { Absolute: "10 20em 30px 40" }});
+    expect(style.base.position).to.equal("absolute");
+    expect(style.base.top).to.equal(10);
+    expect(style.base.right).to.equal("20em");
+    expect(style.base.bottom).to.equal("30px");
+    expect(style.base.left).to.equal(40);
+  });
+
+
+  it("converts an 'Fixed' value", () => {
+    const style = css({ Fixed: "10 20em 30px 40" });
+    expect(style.position).to.equal("fixed");
+    expect(style.top).to.equal(10);
+    expect(style.right).to.equal("20em");
+    expect(style.bottom).to.equal("30px");
+    expect(style.left).to.equal(40);
+  });
+
+
   describe("toPositionEdges", () => {
     it("converts all edge values to object", () => {
       const style = toPositionEdges("Absolute", "10 20 30em 40");
@@ -38,6 +58,14 @@ describe("React: CSS - positioning", () => {
       expect(style.left).to.equal(10);
     });
 
+    it("shorthand: (1-value / Number)", () => {
+      const style = toPositionEdges("Absolute", 10);
+      expect(style.top).to.equal(10);
+      expect(style.right).to.equal(10);
+      expect(style.bottom).to.equal(10);
+      expect(style.left).to.equal(10);
+    });
+
     it("shorthand: (2-values)", () => {
       const style = toPositionEdges("Absolute", "10 30em");
       expect(style.top).to.equal(10);
@@ -53,25 +81,5 @@ describe("React: CSS - positioning", () => {
       expect(style.left).to.equal("30em");
       expect(style.bottom).to.equal(40);
     });
-  });
-
-
-  it("converts an 'Absolute' value", () => {
-    const style = css({ Absolute: "10 20em 30px 40" });
-    expect(style.position).to.equal("absolute");
-    expect(style.top).to.equal(10);
-    expect(style.right).to.equal("20em");
-    expect(style.bottom).to.equal("30px");
-    expect(style.left).to.equal(40);
-  });
-
-
-  it("converts an 'Fixed' value", () => {
-    const style = css({ Fixed: "10 20em 30px 40" });
-    expect(style.position).to.equal("fixed");
-    expect(style.top).to.equal(10);
-    expect(style.right).to.equal("20em");
-    expect(style.bottom).to.equal("30px");
-    expect(style.left).to.equal(40);
   });
 });

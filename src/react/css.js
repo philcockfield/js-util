@@ -71,7 +71,7 @@ const mergeAndReplace = (key, value, target) => {
 
 export const toPositionEdges = (key, value) => {
     if (isBlank(value)) { value = "0"; }
-    const edges = value.split(" ").map(item => toNumber(item));
+    const edges = value.toString().split(" ").map(item => toNumber(item));
     let top, right, bottom, left;
 
     switch (edges.length) {
