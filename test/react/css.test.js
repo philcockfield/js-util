@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { css } from "../../src/react";
 
 
-describe("React: css", () => {
+describe("React: CSS", () => {
   it("is a function", () => {
     expect(css).to.be.an.instanceof(Function);
   });

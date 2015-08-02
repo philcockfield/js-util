@@ -19,8 +19,8 @@
     "sinon": "^1.15.4"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register",
-    "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register,coffee:coffee-script/register --watch",
+    "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register",
+    "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register --watch",
     "prepublish": "gulp build"
   },
   "repository": {
