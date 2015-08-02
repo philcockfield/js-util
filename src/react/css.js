@@ -135,7 +135,7 @@ const formatPositionEdges = (key, target) => {
 const css = (styles = {}) => {
     _.keys(styles).forEach(key => {
         const value = styles[key];
-        if (value === undefined || value === null) {
+        if (_.isUndefined(value) || _.isNull(value)) {
           delete styles[key];
 
         } else if (_.isPlainObject(value)) {
