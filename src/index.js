@@ -1,7 +1,7 @@
 import _ from "lodash";
 import * as util from "./util";
 
-import color from "./color";
+import * as color from "./color";
 import localStorage from "./local-storage";
 import Handlers from "./Handlers";
 import react from "./react";

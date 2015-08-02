@@ -2,11 +2,17 @@ import { expect } from "chai";
 import { css } from "../../src/react";
 
 
-describe.only("React:css", () => {
-  describe("image", () => {
-
+describe("React:css", () => {
+  it("is a function", () => {
+    expect(css).to.be.an.instanceof(Function);
   });
-  // it("exists", () => {
-  //   console.log("css", css);
-  // });
+
+  it("returns the given object", () => {
+    const style = { color:"red" };
+    expect(css(style)).to.equal(style);
+  });
+
+  it("returns an empty object if no `style` parameter is given", () => {
+    expect(css()).to.eql({});
+  });
 });
