@@ -60,10 +60,14 @@ const formatImage = (key, value, target) => {
 const css = (styles = {}) => {
   _.keys(styles).forEach(key => {
       const value = styles[key];
-      switch (key) {
-        case 'Image':
-          formatImage(key, value, styles);
-          break;
+      if (value === undefined || value === null) {
+        delete styles[key];
+      } else {
+        switch (key) {
+          case 'Image':
+            formatImage(key, value, styles);
+            break;
+      }
     }
   });
 
