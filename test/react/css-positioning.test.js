@@ -34,6 +34,14 @@ describe("React: CSS - positioning", () => {
       expect(style.left).to.equal(40);
     });
 
+    it("string containing `null`", () => {
+      const style = toPositionEdges("Absolute", "10 null 30em null");
+      expect(style.top).to.equal(10);
+      expect(style.right).to.equal(undefined);
+      expect(style.bottom).to.equal("30em");
+      expect(style.left).to.equal(undefined);
+    });
+
 
     describe("array", () => {
       it("all edges", () => {
@@ -46,28 +54,28 @@ describe("React: CSS - positioning", () => {
 
       it("empty array", () => {
         const style = toPositionEdges("Absolute", []);
-        expect(style.top).to.equal(0);
-        expect(style.right).to.equal(0);
-        expect(style.bottom).to.equal(0);
-        expect(style.left).to.equal(0);
+        expect(style.top).to.equal(undefined);
+        expect(style.right).to.equal(undefined);
+        expect(style.bottom).to.equal(undefined);
+        expect(style.left).to.equal(undefined);
       });
     });
 
     describe("shorthand", () => {
       it("empty-string", () => {
         const style = toPositionEdges("Absolute", "");
-        expect(style.top).to.equal(0);
-        expect(style.right).to.equal(0);
-        expect(style.bottom).to.equal(0);
-        expect(style.left).to.equal(0);
+        expect(style.top).to.equal(undefined);
+        expect(style.right).to.equal(undefined);
+        expect(style.bottom).to.equal(undefined);
+        expect(style.left).to.equal(undefined);
       });
 
       it("undefined", () => {
         const style = toPositionEdges("Absolute");
-        expect(style.top).to.equal(0);
-        expect(style.right).to.equal(0);
-        expect(style.bottom).to.equal(0);
-        expect(style.left).to.equal(0);
+        expect(style.top).to.equal(undefined);
+        expect(style.right).to.equal(undefined);
+        expect(style.bottom).to.equal(undefined);
+        expect(style.left).to.equal(undefined);
       });
 
       it("1-value", () => {

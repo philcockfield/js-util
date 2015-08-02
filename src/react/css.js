@@ -70,40 +70,46 @@ const mergeAndReplace = (key, value, target) => {
 
 
 export const toPositionEdges = (key, value) => {
-    if (isBlank(value)) { value = "0"; }
+    if (isBlank(value)) { value = ""; }
     if (!_.isArray(value)) {
       value = value.toString().split(" ");
     }
     const edges = value.map(item => toNumber(item));
     let top, right, bottom, left;
 
+    const getEdge = (index) => {
+        let edge = edges[index];
+        if (edge === "null" || edge === "") { return undefined; }
+        return edge;
+      };
+
     switch (edges.length) {
       case 1:
-        top = edges[0];
-        bottom = edges[0];
-        left = edges[0];
-        right = edges[0];
+        top = getEdge(0);
+        bottom = getEdge(0);
+        left = getEdge(0);
+        right = getEdge(0);
         break;
 
       case 2:
-        top = edges[0];
-        bottom = edges[0];
-        left = edges[1];
-        right = edges[1];
+        top = getEdge(0);
+        bottom = getEdge(0);
+        left = getEdge(1);
+        right = getEdge(1);
         break;
 
       case 3:
-        top = edges[0];
-        left = edges[1];
-        right = edges[1];
-        bottom = edges[2];
+        top = getEdge(0);
+        left = getEdge(1);
+        right = getEdge(1);
+        bottom = getEdge(2);
         break;
 
       default:
-        top = edges[0];
-        right = edges[1];
-        bottom = edges[2];
-        left = edges[3];
+        top = getEdge(0);
+        right = getEdge(1);
+        bottom = getEdge(2);
+        left = getEdge(3);
     }
 
     return {
