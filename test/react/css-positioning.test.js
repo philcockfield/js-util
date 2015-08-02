@@ -3,7 +3,7 @@ import { css } from "../../src/react";
 import { toPositionEdges, formatPositionEdges } from "../../src/react/css";
 
 
-describe.only("React: CSS - positioning", () => {
+describe("React: CSS - positioning", () => {
   describe("converting from css() function", () => {
     it("converts an 'Absolute' value (deep)", () => {
       const style = css({ base: { Absolute: "10 20em 30px 40" }});
