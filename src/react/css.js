@@ -1,27 +1,35 @@
 import _ from "lodash";
+import { isBlank, toNumber } from "../util";
 
 
+/**
+ * Takes an image path and breaks it into it's components pieces
+ * providing 1x/2x versions of the image.
+ *
+ * @param {string} path: the raw file path to evaluate.
+ * @return {object}
+ */
 export const expandImagePath = (path) => {
-  if (_.isEmpty(path)) { throw new Error(`Image path not specified.`); }
+    if (_.isEmpty(path)) { throw new Error(`Image path not specified.`); }
 
-  // Extract paths and file-name.
-  let index = _.lastIndexOf(path, '/');
-  const basePath = path.substr(0, index + 1);
-  let fileName = path.substr(index + 1, path.length);
-  let parts = fileName.split(".");
-  if (parts.length < 2) { throw new Error(`An image must have a file extension. [path: ${ path }]`); }
-  fileName = parts[0];
-  const extension = parts[1];
+    // Extract paths and file-name.
+    let index = _.lastIndexOf(path, '/');
+    const basePath = path.substr(0, index + 1);
+    let fileName = path.substr(index + 1, path.length);
+    let parts = fileName.split(".");
+    if (parts.length < 2) { throw new Error(`An image must have a file extension. [path: ${ path }]`); }
+    fileName = parts[0];
+    const extension = parts[1];
 
-  // Finish up.
-  return {
-    basePath,
-    fileName,
-    extension,
-    '1x': `${ basePath }${ fileName }.${ extension }`,
-    '2x': `${ basePath }${ fileName }@2x.${ extension }`
+    // Finish up.
+    return {
+      basePath,
+      fileName,
+      extension,
+      '1x': `${ basePath }${ fileName }.${ extension }`,
+      '2x': `${ basePath }${ fileName }@2x.${ extension }`
+    };
   };
-};
 
 
 /**
@@ -44,16 +52,70 @@ export const image = (image1x, image2x, { width=10, height=10 } = {}) => {
       backgroundSize: `${ width }px ${ height }px`,
       backgroundRepeat: "no-repeat"
     }
-};
-
-
-
+  };
 const formatImage = (key, value, target) => {
     const style = image(value[0], value[1], { width: value[2], height: value[3]});
-    _.merge(target, style);
-    delete target[key];
-};
+    mergeAndReplace(key, style, target);
+  };
 
+
+const mergeAndReplace = (key, value, target) => {
+    _.merge(target, value);
+    delete target[key];
+    return target;
+  };
+
+
+// ----------------------------------------------------------------------------
+
+
+export const toPositionEdges = (key, value) => {
+    if (isBlank(value)) { value = "0"; }
+    const edges = value.split(" ").map(item => toNumber(item));
+    let top, right, bottom, left;
+
+    switch (edges.length) {
+      case 1:
+        top = edges[0];
+        bottom = edges[0];
+        left = edges[0];
+        right = edges[0];
+        break;
+
+      case 2:
+        top = edges[0];
+        bottom = edges[0];
+        left = edges[1];
+        right = edges[1];
+        break;
+
+      case 3:
+        top = edges[0];
+        left = edges[1];
+        right = edges[1];
+        bottom = edges[2];
+        break;
+
+      default:
+        top = edges[0];
+        right = edges[1];
+        bottom = edges[2];
+        left = edges[3];
+    }
+
+    return {
+      position: key.toLowerCase(),
+      top, right, bottom, left
+    };
+  };
+const formatPositionEdges = (key, target) => {
+    const styles = toPositionEdges(key, target[key]);
+    mergeAndReplace(key, styles, target);
+  };
+
+
+
+// ----------------------------------------------------------------------------
 
 
 /**
@@ -62,26 +124,26 @@ const formatImage = (key, value, target) => {
  * @return the resulting style object.
  */
 const css = (styles = {}) => {
-  _.keys(styles).forEach(key => {
-      const value = styles[key];
-      if (value === undefined || value === null) {
-        delete styles[key];
+    _.keys(styles).forEach(key => {
+        const value = styles[key];
+        if (value === undefined || value === null) {
+          delete styles[key];
 
-      } else if (_.isPlainObject(value)) {
-        styles[key] = css(value); // <== RECURSION.
+        } else if (_.isPlainObject(value)) {
+          styles[key] = css(value); // <== RECURSION.
 
-      } else {
-        switch (key) {
-          case 'Image':
-            formatImage(key, value, styles);
-            break;
+        } else {
+          switch (key) {
+            case 'Image': formatImage(key, value, styles); break;
+            case 'Absolute': formatPositionEdges(key, styles); break;
+            case 'Fixed': formatPositionEdges(key, styles); break;
+        }
       }
-    }
-  });
+    });
 
-  // Finish up.
-  return styles
-};
+    // Finish up.
+    return styles
+  };
 
 
 // ----------------------------------------------------------------------------

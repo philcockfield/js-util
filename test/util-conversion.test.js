@@ -82,7 +82,7 @@ describe("util.isNumeric", () => {
 // ----------------------------------------------------------------------------
 
 
-describe.only("util.toNumber", () => {
+describe("util.toNumber", () => {
   it("returns the non-number value", () => {
     const NOW = new Date();
     const OBJECT = { foo:123 };
