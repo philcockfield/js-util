@@ -1,30 +1,28 @@
 import _ from "lodash";
 
 
-// NB: `localStorage` will not be available when
-//      running within environments like JSDom.
 const store = {
-  data: {},
+  data: {}, // Used to fake when store not available (ie. on server or JSDOM).
 
   removeItem(key) {
-    if (localStorage) {
-      localStorage.removeItem(key);
+    if (global.localStorage) {
+      global.localStorage.removeItem(key);
     } else {
       delete this.data[key];
     }
   },
 
   setItem(key, value) {
-    if (localStorage) {
-      localStorage.setItem(key, value);
+    if (global.localStorage) {
+      global.localStorage.setItem(key, value);
     } else {
       this.data[key] = value;
     }
   },
 
   getItem(key) {
-    if (localStorage) {
-      return localStorage.getItem(key);
+    if (global.localStorage) {
+      return global.localStorage.getItem(key);
     } else {
       return this.data[key];
     }
