@@ -3,7 +3,7 @@ import { css } from "../../src/react";
 import { toPositionEdges, formatPositionEdges } from "../../src/react/css";
 
 
-describe.only("React: CSS - positioning", () => {
+describe("React: CSS - positioning", () => {
   it("converts an 'Absolute' value (deep)", () => {
     const style = css({ base: { Absolute: "10 20em 30px 40" }});
     expect(style.base.position).to.equal("absolute");
@@ -25,7 +25,7 @@ describe.only("React: CSS - positioning", () => {
 
 
   describe("toPositionEdges", () => {
-    it("converts all edge values to object", () => {
+    it("all edges from string", () => {
       const style = toPositionEdges("Absolute", "10 20 30em 40");
       expect(style.position).to.equal("absolute");
       expect(style.top).to.equal(10);
@@ -34,52 +34,73 @@ describe.only("React: CSS - positioning", () => {
       expect(style.left).to.equal(40);
     });
 
-    it("shorthand: (empty-string)", () => {
-      const style = toPositionEdges("Absolute", "");
-      expect(style.top).to.equal(0);
-      expect(style.right).to.equal(0);
-      expect(style.bottom).to.equal(0);
-      expect(style.left).to.equal(0);
+
+    describe("array", () => {
+      it("all edges", () => {
+        const style = toPositionEdges("Absolute", ["10", "20", "30em", "40"]);
+        expect(style.top).to.equal(10);
+        expect(style.right).to.equal(20);
+        expect(style.bottom).to.equal("30em");
+        expect(style.left).to.equal(40);
+      });
+
+      it("empty array", () => {
+        const style = toPositionEdges("Absolute", []);
+        expect(style.top).to.equal(0);
+        expect(style.right).to.equal(0);
+        expect(style.bottom).to.equal(0);
+        expect(style.left).to.equal(0);
+      });
     });
 
-    it("shorthand: (undefined)", () => {
-      const style = toPositionEdges("Absolute");
-      expect(style.top).to.equal(0);
-      expect(style.right).to.equal(0);
-      expect(style.bottom).to.equal(0);
-      expect(style.left).to.equal(0);
-    });
+    describe("shorthand", () => {
+      it("empty-string", () => {
+        const style = toPositionEdges("Absolute", "");
+        expect(style.top).to.equal(0);
+        expect(style.right).to.equal(0);
+        expect(style.bottom).to.equal(0);
+        expect(style.left).to.equal(0);
+      });
 
-    it("shorthand: (1-value)", () => {
-      const style = toPositionEdges("Absolute", "10");
-      expect(style.top).to.equal(10);
-      expect(style.right).to.equal(10);
-      expect(style.bottom).to.equal(10);
-      expect(style.left).to.equal(10);
-    });
+      it("undefined", () => {
+        const style = toPositionEdges("Absolute");
+        expect(style.top).to.equal(0);
+        expect(style.right).to.equal(0);
+        expect(style.bottom).to.equal(0);
+        expect(style.left).to.equal(0);
+      });
 
-    it("shorthand: (1-value / Number)", () => {
-      const style = toPositionEdges("Absolute", 10);
-      expect(style.top).to.equal(10);
-      expect(style.right).to.equal(10);
-      expect(style.bottom).to.equal(10);
-      expect(style.left).to.equal(10);
-    });
+      it("1-value", () => {
+        const style = toPositionEdges("Absolute", "10");
+        expect(style.top).to.equal(10);
+        expect(style.right).to.equal(10);
+        expect(style.bottom).to.equal(10);
+        expect(style.left).to.equal(10);
+      });
 
-    it("shorthand: (2-values)", () => {
-      const style = toPositionEdges("Absolute", "10 30em");
-      expect(style.top).to.equal(10);
-      expect(style.right).to.equal("30em");
-      expect(style.bottom).to.equal(10);
-      expect(style.left).to.equal("30em");
-    });
+      it("1-value / Number", () => {
+        const style = toPositionEdges("Absolute", 10);
+        expect(style.top).to.equal(10);
+        expect(style.right).to.equal(10);
+        expect(style.bottom).to.equal(10);
+        expect(style.left).to.equal(10);
+      });
 
-    it("shorthand: (3-values)", () => {
-      const style = toPositionEdges("Absolute", "10 30em 40");
-      expect(style.top).to.equal(10);
-      expect(style.right).to.equal("30em");
-      expect(style.left).to.equal("30em");
-      expect(style.bottom).to.equal(40);
+      it("2-values", () => {
+        const style = toPositionEdges("Absolute", "10 30em");
+        expect(style.top).to.equal(10);
+        expect(style.right).to.equal("30em");
+        expect(style.bottom).to.equal(10);
+        expect(style.left).to.equal("30em");
+      });
+
+      it("3-values", () => {
+        const style = toPositionEdges("Absolute", "10 30em 40");
+        expect(style.top).to.equal(10);
+        expect(style.right).to.equal("30em");
+        expect(style.left).to.equal("30em");
+        expect(style.bottom).to.equal(40);
+      });
     });
   });
 });
