@@ -26,6 +26,10 @@ export const expandImagePath = (path) => {
 
 /**
  * Constructs a style object for an image.
+ *
+ *    For turning image files (PNG/JPG/SVG) into data-uri's see:
+ *    https://github.com/webpack/url-loader
+ *
  * @param {string} image1x: The normal image resolution (base64 encoded)
  * @param {string} image2x: The retina image resolution (base64 encoded)
  * @param {integer} width: Optional. The width of the image.
@@ -62,6 +66,10 @@ const css = (styles = {}) => {
       const value = styles[key];
       if (value === undefined || value === null) {
         delete styles[key];
+
+      } else if (_.isPlainObject(value)) {
+        styles[key] = css(value); // <== RECURSION.
+
       } else {
         switch (key) {
           case 'Image':

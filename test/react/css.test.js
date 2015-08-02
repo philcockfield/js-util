@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { css } from "../../src/react";
 
 
-describe("React:css", () => {
+describe("React: css", () => {
   it("is a function", () => {
     expect(css).to.be.an.instanceof(Function);
   });
@@ -19,5 +19,27 @@ describe("React:css", () => {
   it("removes undefined values", () => {
     const style = { color: undefined, background: null };
     expect(css(style)).to.eql({});
+  });
+
+  it("processes an object deeply", () => {
+    const style = {
+      nothing: undefined,
+      base: {
+        background: 'red',
+        color: undefined,
+        foo: {
+          background: null,
+          color: 'green'
+        }
+      }
+    };
+    expect(css(style)).to.eql({
+      base: {
+        background: 'red',
+        foo: {
+          color: 'green'
+        }
+      }
+    });
   });
 });
