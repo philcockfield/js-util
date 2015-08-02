@@ -79,7 +79,7 @@ export const toPositionEdges = (key, value) => {
 
     const getEdge = (index) => {
         let edge = edges[index];
-        if (edge === "null" || edge === "") { return undefined; }
+        if (_.isNull(edge) || edge === "null" || edge === "") { return undefined; }
         return edge;
       };
 

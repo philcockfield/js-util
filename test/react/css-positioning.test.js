@@ -3,24 +3,36 @@ import { css } from "../../src/react";
 import { toPositionEdges, formatPositionEdges } from "../../src/react/css";
 
 
-describe("React: CSS - positioning", () => {
-  it("converts an 'Absolute' value (deep)", () => {
-    const style = css({ base: { Absolute: "10 20em 30px 40" }});
-    expect(style.base.position).to.equal("absolute");
-    expect(style.base.top).to.equal(10);
-    expect(style.base.right).to.equal("20em");
-    expect(style.base.bottom).to.equal("30px");
-    expect(style.base.left).to.equal(40);
-  });
+describe.only("React: CSS - positioning", () => {
+  describe("converting from css() function", () => {
+    it("converts an 'Absolute' value (deep)", () => {
+      const style = css({ base: { Absolute: "10 20em 30px 40" }});
+      expect(style.base.position).to.equal("absolute");
+      expect(style.base.top).to.equal(10);
+      expect(style.base.right).to.equal("20em");
+      expect(style.base.bottom).to.equal("30px");
+      expect(style.base.left).to.equal(40);
+    });
 
 
-  it("converts an 'Fixed' value", () => {
-    const style = css({ Fixed: "10 20em 30px 40" });
-    expect(style.position).to.equal("fixed");
-    expect(style.top).to.equal(10);
-    expect(style.right).to.equal("20em");
-    expect(style.bottom).to.equal("30px");
-    expect(style.left).to.equal(40);
+    it("converts a 'Fixed' value", () => {
+      const style = css({ Fixed: "10 20em 30px 40" });
+      expect(style.position).to.equal("fixed");
+      expect(style.top).to.equal(10);
+      expect(style.right).to.equal("20em");
+      expect(style.bottom).to.equal("30px");
+      expect(style.left).to.equal(40);
+    });
+
+
+    it("converts array value (with null's)", () => {
+      const style = css({ Absolute: ["10", null, "30px", "40"] });
+      expect(style.position).to.equal("absolute");
+      expect(style.top).to.equal(10);
+      expect(style.right).to.equal(undefined);
+      expect(style.bottom).to.equal("30px");
+      expect(style.left).to.equal(40);
+    });
   });
 
 
@@ -54,6 +66,22 @@ describe("React: CSS - positioning", () => {
 
       it("empty array", () => {
         const style = toPositionEdges("Absolute", []);
+        expect(style.top).to.equal(undefined);
+        expect(style.right).to.equal(undefined);
+        expect(style.bottom).to.equal(undefined);
+        expect(style.left).to.equal(undefined);
+      });
+
+      it("array containing `null` values", () => {
+        const style = toPositionEdges("Absolute", [null, 10, null, null]);
+        expect(style.top).to.equal(undefined);
+        expect(style.right).to.equal(10);
+        expect(style.bottom).to.equal(undefined);
+        expect(style.left).to.equal(undefined);
+      });
+
+      it("array containing all `null` values", () => {
+        const style = toPositionEdges("Absolute", [null, null, null, null]);
         expect(style.top).to.equal(undefined);
         expect(style.right).to.equal(undefined);
         expect(style.bottom).to.equal(undefined);
