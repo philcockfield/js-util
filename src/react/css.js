@@ -44,7 +44,12 @@ export const expandImagePath = (path) => {
  * @param {integer} height: Optional. The height of the image.
  */
 export const image = (image1x, image2x, { width=10, height=10 } = {}) => {
-    const image = global.devicePixelRatio > 1 ? image2x : image1x;
+    // Prepare image based on current screen density.
+    let image = global.devicePixelRatio > 1 ? image2x : image1x;
+    if (!image) { image = image1x; }
+    if (!image) { throw new Error("Must have at least a 1x image."); }
+
+    // Finish up.
     return {
       backgroundImage: `url(${ image })`,
       width,
@@ -54,7 +59,15 @@ export const image = (image1x, image2x, { width=10, height=10 } = {}) => {
     }
   };
 const formatImage = (key, value, target) => {
-    const style = image(value[0], value[1], { width: value[2], height: value[3]});
+    // Wrangle parameters.
+    let [ image1x, image2x, width, height ] = value;
+    if (_.isNumber(image2x)) {
+      height = width;
+      width = image2x;
+      image2x = undefined;
+    }
+
+    const style = image(image1x, image2x, { width: width, height: height});
     mergeAndReplace(key, style, target);
   };
 
