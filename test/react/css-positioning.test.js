@@ -33,6 +33,14 @@ describe("React: CSS - positioning", () => {
       expect(style.bottom).to.equal("30px");
       expect(style.left).to.equal(40);
     });
+
+    it("does nothing with an [undefined] value", () => {
+      expect(css({ base: { Absolute:undefined }})).to.eql({ base:{} });
+    });
+
+    it("does nothing with an [empty-string] value", () => {
+      expect(css({ base: { Absolute:"" }})).to.eql({ base:{} });
+    });
   });
 
 
@@ -66,10 +74,7 @@ describe("React: CSS - positioning", () => {
 
       it("empty array", () => {
         const style = toPositionEdges("Absolute", []);
-        expect(style.top).to.equal(undefined);
-        expect(style.right).to.equal(undefined);
-        expect(style.bottom).to.equal(undefined);
-        expect(style.left).to.equal(undefined);
+        expect(style).to.equal(undefined);
       });
 
       it("array containing `null` values", () => {
@@ -82,28 +87,19 @@ describe("React: CSS - positioning", () => {
 
       it("array containing all `null` values", () => {
         const style = toPositionEdges("Absolute", [null, null, null, null]);
-        expect(style.top).to.equal(undefined);
-        expect(style.right).to.equal(undefined);
-        expect(style.bottom).to.equal(undefined);
-        expect(style.left).to.equal(undefined);
+        expect(style).to.equal(undefined);
       });
     });
 
     describe("shorthand", () => {
       it("empty-string", () => {
         const style = toPositionEdges("Absolute", "");
-        expect(style.top).to.equal(undefined);
-        expect(style.right).to.equal(undefined);
-        expect(style.bottom).to.equal(undefined);
-        expect(style.left).to.equal(undefined);
+        expect(style).to.equal(undefined);
       });
 
       it("undefined", () => {
         const style = toPositionEdges("Absolute");
-        expect(style.top).to.equal(undefined);
-        expect(style.right).to.equal(undefined);
-        expect(style.bottom).to.equal(undefined);
-        expect(style.left).to.equal(undefined);
+        expect(style).to.equal(undefined);
       });
 
       it("1-value", () => {

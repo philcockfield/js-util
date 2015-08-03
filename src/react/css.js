@@ -66,7 +66,6 @@ const formatImage = (key, value, target) => {
       width = image2x;
       image2x = undefined;
     }
-
     const style = image(image1x, image2x, { width: width, height: height});
     mergeAndReplace(key, style, target);
   };
@@ -83,7 +82,7 @@ const mergeAndReplace = (key, value, target) => {
 
 
 export const toPositionEdges = (key, value) => {
-    if (isBlank(value)) { value = ""; }
+    if (isBlank(value)) { return undefined; }
     if (!_.isArray(value)) {
       value = value.toString().split(" ");
     }
