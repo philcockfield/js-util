@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { expect } from "chai";
 import localStorage from "../src/local-storage";
 
@@ -18,6 +19,19 @@ describe("LocalStorage", () => {
       expect(localStorage.prop(KEY)).to.equal(undefined);
     });
   });
+
+
+  it("returns keys", () => {
+    const KEY = 'return-keys-test';
+    let keys;
+    keys = localStorage.keys();
+    expect(_.any(keys, item => KEY)).to.equal(false);
+
+    localStorage.prop(KEY, 123);
+    keys = localStorage.keys();
+    expect(_.any(keys, item => KEY)).to.equal(true);
+  });
+
 
   describe("data-types", () => {
     it("string", () => {
