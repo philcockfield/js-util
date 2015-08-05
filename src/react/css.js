@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { isBlank, toNumber } from "../util";
+import * as color from "../color";
 
 
 /**
@@ -169,4 +170,5 @@ const css = (styles = {}) => {
 
 // ----------------------------------------------------------------------------
 css.image = image;
+_.merge(css, color);
 export default css;

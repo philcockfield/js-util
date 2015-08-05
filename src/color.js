@@ -1,4 +1,5 @@
 import _ from "lodash";
+import Color from "color";
 
 
 /*
@@ -28,3 +29,18 @@ export const fromAlpha = (value) => {
     return `rgba(255, 255, 255, ${ value })`;
   }
 };
+
+
+
+export class NamedColor {
+  constructor(name) {
+    this.name = name;
+  }
+  toString() { return Color(this.name).hexString(); }
+  darken(percent) { return Color(this.name).darken(percent).hexString(); }
+}
+
+
+export const color = (name) => { return new NamedColor(name); };
+export const white = color("white");
+export const black = color("black");
