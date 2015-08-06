@@ -1,11 +1,23 @@
 import _ from "lodash";
 import React from "react";
-
 const PropTypes = _.clone(React.PropTypes);
-PropTypes.NUMBER_OR_STRING = PropTypes.oneOfType([
+
+
+/**
+ * Common combinations of types.
+ */
+PropTypes.numberOrString = PropTypes.oneOfType([
   React.PropTypes.number,
   React.PropTypes.string
 ]);
+
+PropTypes.boolOrString = PropTypes.oneOfType([
+  React.PropTypes.bool,
+  React.PropTypes.string
+]);
+
+
+// ----------------------------------------------------------------------------
 
 
 /**
