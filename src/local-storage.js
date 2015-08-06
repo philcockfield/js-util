@@ -35,7 +35,7 @@ class LocalStorage {
    * Retrieves the set of keys within local-storage.
    */
   keys() {
-    const storage = global.storage ? global.storage : store.data;
+    const storage = global.localStorage ? global.localStorage : store.data;
     return _.keys(storage);
   }
 
