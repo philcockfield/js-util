@@ -19,16 +19,6 @@ PropTypes.boolOrString = PropTypes.oneOfType([
 ]);
 
 
-// Convenience methods ----------------------------------------------------------------------------
-
-
-PropTypes.validate = (propTypes, props, componentName) => {
-  return Validator(propTypes).validate(props, componentName)
-}
-
-
-// ----------------------------------------------------------------------------
-
 
 /**
  * Store the parameter values on the returned
@@ -109,6 +99,28 @@ _.keys(PropTypes).forEach(key => {
               : key;
         };
     });
+
+
+// ----------------------------------------------------------------------------
+
+
+/**
+ * Performs validation on the a set of properties.
+ * @param propTypes:      An object containing the property-type definiitons
+ *                        or a single PropType.
+ * @param props:          An object of properties to validate
+ *                        or a single value of a single <propTypes> definiiton was passed.
+ * @param componentName:  Optional. The name of the component being validated.
+ *                        Used in error message.
+ * @return {object} validation results.
+ */
+PropTypes.validate = (propTypes, props, componentName) => {
+  if (_.isFunction(propTypes)) {
+    propTypes = { value: propTypes };
+    props = { value: props };
+  }
+  return Validator(propTypes).validate(props, componentName)
+}
 
 
 // ----------------------------------------------------------------------------

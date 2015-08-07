@@ -21,25 +21,6 @@ describe("Validate PropTypes", () => {
     expect(result.errors.isEnabled.message).to.contain("MyComponent");
   });
 
-  describe("convenience method", function() {
-    it("passes params from [css] object to Validator (convenience method)", () => {
-      const propTypes = {
-        myBool: React.PropTypes.bool,
-        myString: React.PropTypes.string,
-        myNumber: React.PropTypes.number
-      };
-      let result = PropTypes.validate(propTypes, { myBool: true, myString: "Foo", myNumber: 123 });
-      expect(result.isValid).to.equal(true);
-    });
-
-    it("passes (optional) component name", () => {
-      let result = PropTypes.validate({ isEnabled: React.PropTypes.bool }, { isEnabled:123 }, "MyComponent");
-      expect(result.isValid).to.equal(false);
-      expect(result.errors.isEnabled.message).to.contain("MyComponent");
-    });
-  });
-
-
 
   describe("null values", () => {
     it("reports nothing if properties are not declared", () => {
