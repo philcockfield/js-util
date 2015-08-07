@@ -72,9 +72,25 @@ describe("React: CSS - positioning", () => {
         expect(style.left).to.equal(40);
       });
 
+      it("all edges (0)", () => {
+        const style = toPositionEdges("Absolute", [0, 0, 0, 0]);
+        expect(style.top).to.equal(0);
+        expect(style.right).to.equal(0);
+        expect(style.bottom).to.equal(0);
+        expect(style.left).to.equal(0);
+      });
+
       it("empty array", () => {
         const style = toPositionEdges("Absolute", []);
         expect(style).to.equal(undefined);
+      });
+
+      it("single value array [0]", () => {
+        const style = toPositionEdges("Absolute", [0]);
+        expect(style.top).to.equal(0);
+        expect(style.right).to.equal(0);
+        expect(style.bottom).to.equal(0);
+        expect(style.left).to.equal(0);
       });
 
       it("array containing `null` values", () => {

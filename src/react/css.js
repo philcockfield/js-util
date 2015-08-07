@@ -83,7 +83,9 @@ const mergeAndReplace = (key, value, target) => {
 
 
 export const toPositionEdges = (key, value) => {
-    if (isBlank(value)) { return undefined; }
+    if (value === undefined || value === null) { return undefined; }
+    if (_.isString(value) && isBlank(value)) { return undefined; }
+    if (_.isArray(value) && value.length === 0) { return undefined; }
     if (!_.isArray(value)) {
       value = value.toString().split(" ");
     }
@@ -125,10 +127,14 @@ export const toPositionEdges = (key, value) => {
         left = getEdge(3);
     }
 
-    return {
-      position: key.toLowerCase(),
-      top, right, bottom, left
-    };
+    if (top === undefined && right === undefined && bottom === undefined && left === undefined) {
+      return undefined;
+    } else {
+      return {
+        position: key.toLowerCase(),
+        top, right, bottom, left
+      };
+    }
   };
 const formatPositionEdges = (key, target) => {
     const styles = toPositionEdges(key, target[key]);
