@@ -3,14 +3,12 @@ import { expect } from "chai";
 import React from "react";
 import Validator from "../../src/react/Validator";
 import { validate } from "../../src/react";
-
-
-const PropTypes = React.PropTypes;
+import { PropTypes } from "../../src/react";
 
 
 describe("Validate PropTypes", () => {
   it("store propTypes on the validator", () => {
-    const propTypes = { isEnabled: PropTypes.bool };
+    const propTypes = { isEnabled: React.PropTypes.bool };
     expect(Validator(propTypes).propTypes).to.equal(propTypes);
   });
 
@@ -19,23 +17,23 @@ describe("Validate PropTypes", () => {
   });
 
   it("reports (optional) component name within error message", () => {
-    let result = Validator({ isEnabled: PropTypes.bool }).validate({ isEnabled:123 }, "MyComponent");
+    let result = Validator({ isEnabled: React.PropTypes.bool }).validate({ isEnabled:123 }, "MyComponent");
     expect(result.errors.isEnabled.message).to.contain("MyComponent");
   });
 
   describe("convenience method", function() {
     it("passes params from [css] object to Validator (convenience method)", () => {
       const propTypes = {
-        myBool: PropTypes.bool,
-        myString: PropTypes.string,
-        myNumber: PropTypes.number
+        myBool: React.PropTypes.bool,
+        myString: React.PropTypes.string,
+        myNumber: React.PropTypes.number
       };
-      let result = validate(propTypes, { myBool: true, myString: "Foo", myNumber: 123 });
+      let result = PropTypes.validate(propTypes, { myBool: true, myString: "Foo", myNumber: 123 });
       expect(result.isValid).to.equal(true);
     });
 
     it("passes (optional) component name", () => {
-      let result = validate({ isEnabled: PropTypes.bool }, { isEnabled:123 }, "MyComponent");
+      let result = PropTypes.validate({ isEnabled: React.PropTypes.bool }, { isEnabled:123 }, "MyComponent");
       expect(result.isValid).to.equal(false);
       expect(result.errors.isEnabled.message).to.contain("MyComponent");
     });
@@ -57,9 +55,9 @@ describe("Validate PropTypes", () => {
 
   describe("primitives (bool, string, number)", () => {
     const propTypes = {
-      myBool: PropTypes.bool,
-      myString: PropTypes.string,
-      myNumber: PropTypes.number
+      myBool: React.PropTypes.bool,
+      myString: React.PropTypes.string,
+      myNumber: React.PropTypes.number
     };
 
     describe("is valid", () => {
@@ -110,7 +108,7 @@ describe("Validate PropTypes", () => {
       });
 
       it("when required value is passed", () => {
-        let validator = Validator({ text: PropTypes.string.isRequired });
+        let validator = Validator({ text: React.PropTypes.string.isRequired });
         expect(validator.validate().isValid).to.equal(false);
         expect(validator.validate({ foo:123 }).isValid).to.equal(false);
       });
@@ -120,19 +118,19 @@ describe("Validate PropTypes", () => {
 
   describe("Enum", () => {
     it("is valid", () => {
-      let validator = Validator({ enum: PropTypes.oneOf(["one", "two"]) });
+      let validator = Validator({ enum: React.PropTypes.oneOf(["one", "two"]) });
       let result = validator.validate({ enum:"one" });
       expect(result.isValid).to.equal(true);
     });
 
     it("is not valid (wrong value)", () => {
-      let validator = Validator({ enum: PropTypes.oneOf(["one", "two"]) });
+      let validator = Validator({ enum: React.PropTypes.oneOf(["one", "two"]) });
       let result = validator.validate({ enum:"four" });
       expect(result.isValid).to.equal(false);
     });
 
     it("is not valid (required)", () => {
-      let validator = Validator({ enum: PropTypes.oneOf(["one", "two"]).isRequired });
+      let validator = Validator({ enum: React.PropTypes.oneOf(["one", "two"]).isRequired });
       let result = validator.validate()
       expect(result.isValid).to.equal(false);
     });
@@ -140,20 +138,20 @@ describe("Validate PropTypes", () => {
 
   describe("Shape (Object)", () => {
     it("is valid", () => {
-     let  validator = Validator({ obj: PropTypes.shape({ foo: PropTypes.string }) });
+     let  validator = Validator({ obj: React.PropTypes.shape({ foo: React.PropTypes.string }) });
       let result = validator.validate({ obj:{ foo:"hello" }});
       expect(result.isValid).to.equal(true);
     });
 
     it("is not valid (wrong value)", () => {
-     let  validator = Validator({ obj: PropTypes.shape({ foo: PropTypes.string }) });
+     let  validator = Validator({ obj: React.PropTypes.shape({ foo: React.PropTypes.string }) });
       let result = validator.validate({ obj:{ foo:123 } });
       expect(result.isValid).to.equal(false);
     });
 
     it("is not valid (required)", () => {
      let  validator = Validator({
-        obj: PropTypes.shape({ foo: PropTypes.string.isRequired })
+        obj: React.PropTypes.shape({ foo: React.PropTypes.string.isRequired })
       });
       let result = validator.validate({ obj:{}});
       expect(result.isValid).to.equal(false);

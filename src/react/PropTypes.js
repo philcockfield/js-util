@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React from "react";
+import Validator from "./Validator";
 const PropTypes = _.clone(React.PropTypes);
 
 
@@ -15,6 +16,14 @@ PropTypes.boolOrString = PropTypes.oneOfType([
   React.PropTypes.bool,
   React.PropTypes.string
 ]);
+
+
+// Convenience methods ----------------------------------------------------------------------------
+
+
+PropTypes.validate = (propTypes, props, componentName) => {
+  return Validator(propTypes).validate(props, componentName)
+}
 
 
 // ----------------------------------------------------------------------------
