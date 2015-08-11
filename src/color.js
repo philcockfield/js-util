@@ -31,13 +31,19 @@ export const fromAlpha = (value) => {
 };
 
 
+const clampPercent = (value) => {
+  if (!_.isNumber(value)) { return 0; }
+  if (value < 0) { value = 0; }
+  if (value > 1) { value = 1; }
+  return value;
+};
+
 
 export class NamedColor {
-  constructor(name) {
-    this.name = name;
-  }
+  constructor(name) { this.name = name; }
   toString() { return Color(this.name).hexString(); }
-  darken(percent) { return Color(this.name).darken(percent).hexString(); }
+  darken(percent) { return Color(this.name).darken(clampPercent(percent)).hexString(); }
+  lighten(percent) { return Color(this.name).lighten(clampPercent(percent)).hexString(); }
 }
 
 
