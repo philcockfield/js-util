@@ -82,13 +82,11 @@ export default class Handlers {
   @returns false if any handler returned false (ie. cancelled the operation in question).
   */
   invoke(...args) {
-    var items = _.clone(this.items);
+    let items = _.clone(this.items);
     for (let i in items) {
       let item = items[i];
       let result = item.func.apply(this.context, args);
-      if (result === false) {
-        return false;
-      }
+      if (result === false) { return false; }
     }
     return true;
   }
