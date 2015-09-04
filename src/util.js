@@ -65,6 +65,29 @@ export const toBool = (value) => {
 };
 
 
+/**
+ * Converts a string it's actual type if it can be derived.
+ * @param {string} string: The string to convert.
+ * @return the original or converted value.
+ */
+export const toType = (value) => {
+  if (!_.isString(value)) { return value; }
+  const lowerCase = _.trim(value.toLowerCase());
+
+  // Boolean.
+  if (lowerCase === "true") { return true; }
+  if (lowerCase === "false") { return false; }
+
+  // Number.
+  const number = toNumber(lowerCase);
+  if (_.isNumber(number)) { return number; }
+
+  // Originanl type.
+  return value;
+};
+
+
+
 
 /**
 * Provides a more convenient way of setting a timeout.

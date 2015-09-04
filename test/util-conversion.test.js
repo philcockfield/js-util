@@ -145,3 +145,41 @@ describe("util.toBool", () => {
     expect(util.toBool({foo:123})).to.eql({foo:123});
   });
 });
+
+
+
+// ----------------------------------------------------------------------------
+
+
+describe("toType", function() {
+  it("converts to bool (true)", () => {
+    expect(util.toType("true")).to.equal(true);
+    expect(util.toType(" true  ")).to.equal(true);
+    expect(util.toType("True")).to.equal(true);
+    expect(util.toType("TRUE")).to.equal(true);
+  });
+
+  it("converts to bool (false)", () => {
+    expect(util.toType("false")).to.equal(false);
+    expect(util.toType(" false  ")).to.equal(false);
+    expect(util.toType("False")).to.equal(false);
+    expect(util.toType("FALSE")).to.equal(false);
+  });
+
+  it("converts to number", () => {
+    expect(util.toType("123")).to.equal(123);
+    expect(util.toType(" -123  ")).to.equal(-123);
+    expect(util.toType("0")).to.equal(0);
+    expect(util.toType("0.0001")).to.equal(0.0001);
+  });
+
+  it("converts does not convert", () => {
+    const now = new Date();
+    expect(util.toType("foo")).to.eql("foo");
+    expect(util.toType()).to.eql();
+    expect(util.toType(null)).to.eql(null);
+    expect(util.toType({})).to.eql({});
+    expect(util.toType(now)).to.eql(now);
+    expect(util.toType(123)).to.eql(123);
+  });
+});
