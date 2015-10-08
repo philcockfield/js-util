@@ -136,11 +136,29 @@ export const toPositionEdges = (key, value) => {
       };
     }
   };
+
+
 const formatPositionEdges = (key, target) => {
     const styles = toPositionEdges(key, target[key]);
     mergeAndReplace(key, styles, target);
   };
 
+
+const formatAbsoluteCenter = (key, value, target) => {
+    if (value === true) { value = "xy"; }
+    if (value === false || value === undefined || value === null) { return; }
+    const styles = { position: "absolute" };
+    value = value.trim().toLowerCase();
+    if (value.includes("x")) { styles.left = "50%"; }
+    if (value.includes("y")) { styles.top = "50%"; }
+    switch (value) {
+      case "yx":
+      case "xy": styles.transform = "translate(-50%, -50%)"; break;
+      case "x": styles.transform = "translateX(-50%)"; break;
+      case "y": styles.transform = "translateY(-50%)"; break;
+    }
+    mergeAndReplace(key, styles, target);
+  };
 
 
 // ----------------------------------------------------------------------------
@@ -165,6 +183,7 @@ const css = (styles = {}) => {
             case 'Image': formatImage(key, value, styles); break;
             case 'Absolute': formatPositionEdges(key, styles); break;
             case 'Fixed': formatPositionEdges(key, styles); break;
+            case 'AbsoluteCenter': formatAbsoluteCenter(key, value, styles); break;
         }
       }
     });
