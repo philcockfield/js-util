@@ -151,12 +151,15 @@ const formatAbsoluteCenter = (key, value, target) => {
     value = value.trim().toLowerCase();
     if (value.includes("x")) { styles.left = "50%"; }
     if (value.includes("y")) { styles.top = "50%"; }
+    let transform;
     switch (value) {
       case "yx":
-      case "xy": styles.transform = "translate(-50%, -50%)"; break;
-      case "x": styles.transform = "translateX(-50%)"; break;
-      case "y": styles.transform = "translateY(-50%)"; break;
+      case "xy": transform = "translate(-50%, -50%)"; break;
+      case "x": transform = "translateX(-50%)"; break;
+      case "y": transform = "translateY(-50%)"; break;
+      default: throw new Error(`AbsoluteCenter value "${ value }" not supported.`);
     }
+    styles.transform = `${ target.transform || "" } ${ transform }`.trim();
     mergeAndReplace(key, styles, target);
   };
 
