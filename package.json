@@ -6,7 +6,8 @@
   "dependencies": {
     "color": "^0.10.1",
     "lodash": "^3.6.0",
-    "react": "^0.13.3"
+    "react": "^0.13.3",
+    "react-schema": "^1.0.0"
   },
   "devDependencies": {
     "babel": "^5.8.3",

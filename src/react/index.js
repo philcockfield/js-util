@@ -1,4 +1,4 @@
-import PropTypes from "./PropTypes";
+import { PropTypes } from "react-schema";
 import css from "./css";
 
 
