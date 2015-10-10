@@ -5,7 +5,13 @@ import reactSchema from "react-schema";
 
 
 describe("React PropTypes", function() {
-  it("exports the `react-schema` PropTypes", () => {
-    expect(PropTypes).to.equal(reactSchema.PropTypes);
+  it("has a validate method", () => {
+    expect(PropTypes.validate).to.be.an.instanceof(Function);
+  });
+
+  it("exposes react prop-types", () => {
+    Object.keys(React.PropTypes).forEach((key) => {
+      expect(PropTypes[key]).to.be.an.instanceof(Function);
+    });
   });
 });
