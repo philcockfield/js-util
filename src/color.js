@@ -1,5 +1,5 @@
 import _ from "lodash";
-import Color from "color";
+import colorUtil from "color";
 
 
 /*
@@ -41,9 +41,9 @@ const clampPercent = (value) => {
 
 export class NamedColor {
   constructor(name) { this.name = name; }
-  toString() { return Color(this.name).hexString(); }
-  darken(percent) { return Color(this.name).darken(clampPercent(percent)).hexString(); }
-  lighten(percent) { return Color(this.name).lighten(clampPercent(percent)).hexString(); }
+  toString() { return colorUtil(this.name).hexString(); }
+  darken(percent) { return colorUtil(this.name).darken(clampPercent(percent)).hexString(); }
+  lighten(percent) { return colorUtil(this.name).lighten(clampPercent(percent)).hexString(); }
 }
 
 

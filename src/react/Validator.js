@@ -1,4 +1,3 @@
-import _ from "lodash";
 
 
 /**
@@ -19,12 +18,12 @@ class Validator {
    */
   validate(props = {}, componentName) {
     const result = { isValid: true };
-    _.keys(this.propTypes).forEach(key => {
+    Object.keys(this.propTypes).forEach(key => {
           let validator = this.propTypes[key];
           let error = validator(props, key, componentName);
           if (error !== null) {
             result.isValid = false;
-            result.errors = result.errors || {}
+            result.errors = result.errors || {};
             result.errors[key] = error;
           }
         });
@@ -33,4 +32,4 @@ class Validator {
 }
 
 
-export default (propType) => { return new Validator(propType) };
+export default (propType) => { return new Validator(propType); };

@@ -14,7 +14,7 @@ export const expandImagePath = (path) => {
     if (_.isEmpty(path)) { throw new Error(`Image path not specified.`); }
 
     // Extract paths and file-name.
-    let index = _.lastIndexOf(path, '/');
+    let index = _.lastIndexOf(path, "/");
     const basePath = path.substr(0, index + 1);
     let fileName = path.substr(index + 1, path.length);
     let parts = fileName.split(".");
@@ -27,8 +27,8 @@ export const expandImagePath = (path) => {
       basePath,
       fileName,
       extension,
-      '1x': `${ basePath }${ fileName }.${ extension }`,
-      '2x': `${ basePath }${ fileName }@2x.${ extension }`
+      "1x": `${ basePath }${ fileName }.${ extension }`,
+      "2x": `${ basePath }${ fileName }@2x.${ extension }`
     };
   };
 
@@ -46,19 +46,28 @@ export const expandImagePath = (path) => {
  */
 export const image = (image1x, image2x, { width=10, height=10 } = {}) => {
     // Prepare image based on current screen density.
-    let image = global.devicePixelRatio > 1 ? image2x : image1x;
-    if (!image) { image = image1x; }
-    if (!image) { throw new Error("Must have at least a 1x image."); }
+    let img = global.devicePixelRatio > 1 ? image2x : image1x;
+    if (!img) { img = image1x; }
+    if (!img) { throw new Error("Must have at least a 1x image."); }
 
     // Finish up.
     return {
-      backgroundImage: `url(${ image })`,
+      backgroundImage: `url(${ img })`,
       width,
       height,
       backgroundSize: `${ width }px ${ height }px`,
       backgroundRepeat: "no-repeat"
-    }
+    };
   };
+
+
+const mergeAndReplace = (key, value, target) => {
+    _.merge(target, value);
+    delete target[key];
+    return target;
+  };
+
+
 const formatImage = (key, value, target) => {
     // Wrangle parameters.
     let [ image1x, image2x, width, height ] = value;
@@ -72,11 +81,6 @@ const formatImage = (key, value, target) => {
   };
 
 
-const mergeAndReplace = (key, value, target) => {
-    _.merge(target, value);
-    delete target[key];
-    return target;
-  };
 
 
 // ----------------------------------------------------------------------------
@@ -183,16 +187,16 @@ const css = (styles = {}) => {
 
         } else {
           switch (key) {
-            case 'Image': formatImage(key, value, styles); break;
-            case 'Absolute': formatPositionEdges(key, styles); break;
-            case 'Fixed': formatPositionEdges(key, styles); break;
-            case 'AbsoluteCenter': formatAbsoluteCenter(key, value, styles); break;
+            case "Image": formatImage(key, value, styles); break;
+            case "Absolute": formatPositionEdges(key, styles); break;
+            case "Fixed": formatPositionEdges(key, styles); break;
+            case "AbsoluteCenter": formatAbsoluteCenter(key, value, styles); break;
         }
       }
     });
 
     // Finish up.
-    return styles
+    return styles;
   };
 
 
