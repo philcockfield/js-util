@@ -6,7 +6,7 @@ import reactSchema from "react-schema";
 
 describe("React PropTypes", function() {
   it("has a validate method", () => {
-    expect(PropTypes.validate).to.be.an.instanceof(Function);
+    expect(reactSchema.validate).to.be.an.instanceof(Function);
   });
 
   it("exposes react prop-types", () => {
