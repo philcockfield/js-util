@@ -23,7 +23,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register",
     "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register --watch",
-    "prepublish": "gulp build"
+    "prepublish": "npm test && gulp lint && gulp build"
   },
   "repository": {
     "type": "git",
