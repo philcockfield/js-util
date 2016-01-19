@@ -25,7 +25,7 @@ describe("color", () => {
 
       it("returns percentage of black", () => {
         expect(color.fromAlpha(-0.3)).to.equal("rgba(0, 0, 0, 0.3)");
-        expect(color.fromAlpha(-.3)).to.equal("rgba(0, 0, 0, 0.3)");
+        expect(color.fromAlpha(-0.3)).to.equal("rgba(0, 0, 0, 0.3)");
       });
     });
 
@@ -38,7 +38,7 @@ describe("color", () => {
 
       it("returns percentage of white", () => {
         expect(color.fromAlpha(0.3)).to.equal("rgba(255, 255, 255, 0.3)");
-        expect(color.fromAlpha(.3)).to.equal("rgba(255, 255, 255, 0.3)");
+        expect(color.fromAlpha(0.3)).to.equal("rgba(255, 255, 255, 0.3)");
       });
     });
   });
