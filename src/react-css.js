@@ -1,5 +1,5 @@
 import R from "ramda";
-import { isBlank, toNumber, isPlainObject } from "./util";
+import { isBlank, toNumber, isPlainObject } from "./";
 
 
 /**

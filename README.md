@@ -9,7 +9,7 @@ Common JS utility helpers.
 
 ## Test
     npm test
-    npm run tdd  # (Live reload)
+
 
 
 

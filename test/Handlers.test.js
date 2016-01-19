@@ -1,6 +1,6 @@
 import R from "ramda";
 import { expect } from "chai";
-import * as util from "../src/util";
+import * as util from "../src";
 import Handlers from "../src/Handlers";
 
 
