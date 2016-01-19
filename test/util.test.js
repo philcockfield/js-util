@@ -88,3 +88,59 @@ describe("util.functionParameters", () => {
     expect(util.functionParameters({})).to.eql([]);
   });
 });
+
+
+// ----------------------------------------------------------------------------
+
+
+describe("isPlainObject", function() {
+  it("is a plain object", () => {
+    expect(util.isPlainObject(Object.create({}))).to.equal(true);
+    expect(util.isPlainObject(Object.create(Object.prototype))).to.equal(true);
+    expect(util.isPlainObject({ foo: 123 })).to.equal(true);
+    expect(util.isPlainObject({})).to.equal(true);
+  });
+
+
+  it("is not a plain object", () => {
+    class Foo {}
+    expect(util.isPlainObject(1)).to.equal(false);
+    expect(util.isPlainObject(["foo", "bar"])).to.equal(false);
+    expect(util.isPlainObject([])).to.equal(false);
+    expect(util.isPlainObject(new Foo())).to.equal(false);
+    expect(util.isPlainObject(null)).to.equal(false);
+    expect(util.isPlainObject(Object.create(null))).to.equal(false);
+  });
+});
+
+
+
+// ----------------------------------------------------------------------------
+
+
+
+describe("compact", function() {
+  it("makes no change", () => {
+    expect(util.compact([1, 2, 3])).to.eql([1, 2, 3]);
+  });
+
+  it("removes null values", () => {
+    expect(util.compact([1, null, 3, null])).to.eql([1, 3]);
+  });
+
+  it("removes undefined values", () => {
+    expect(util.compact([1, undefined, 3, undefined])).to.eql([1, 3]);
+  });
+
+  it("removes empty strings", () => {
+    expect(util.compact([1, "", 3])).to.eql([1, 3]);
+  });
+
+  it("retains `false` and 0", () => {
+    expect(util.compact([0, 1, false, 3])).to.eql([0, 1, false, 3]);
+  });
+
+  it("retains white space strings", () => {
+    expect(util.compact([0, 1, " ", 3])).to.eql([0, 1, " ", 3]);
+  });
+});

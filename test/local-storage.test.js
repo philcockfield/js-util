@@ -1,4 +1,4 @@
-import _ from "lodash";
+import R from "ramda";
 import { expect } from "chai";
 import localStorage from "../src/local-storage";
 
@@ -25,11 +25,11 @@ describe("LocalStorage", () => {
     const KEY = 'return-keys-test';
     let keys;
     keys = localStorage.keys();
-    expect(_.any(keys, item => KEY)).to.equal(false);
+    expect(R.any(item => KEY, keys)).to.equal(false);
 
     localStorage.prop(KEY, 123);
     keys = localStorage.keys();
-    expect(_.any(keys, item => KEY)).to.equal(true);
+    expect(R.any(item => KEY, keys)).to.equal(true);
   });
 
 

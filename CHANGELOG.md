@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Removed
 - Removed color utilities that leaned on (bloat): https://www.npmjs.com/package/color
 - Removed React validator helpers.  Now in https://github.com/philcockfield/react-schema
+- Removed `lodash` (replaced with `ramda`).
 
 #### Fixed
 #### Security

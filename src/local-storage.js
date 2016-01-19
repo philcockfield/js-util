@@ -1,4 +1,4 @@
-import _ from "lodash";
+import R from "ramda";
 
 
 const store = {
@@ -36,7 +36,7 @@ class LocalStorage {
    */
   keys() {
     const storage = global.localStorage ? global.localStorage : store.data;
-    return _.keys(storage);
+    return Object.keys(storage);
   }
 
 
@@ -51,21 +51,21 @@ class LocalStorage {
   * @return the read value.
   */
   prop(key, value, options = {}) {
-    if (_.isNull(value)) {
+    if (value === null) {
       // REMOVE.
       store.removeItem(key);
 
-    } else if(!_.isUndefined(value)) {
+    } else if(value !== undefined) {
 
       // WRITE.
       var type;
-      if (_.isString(value)) {
+      if (R.is(String, value)) {
         type = "string";
-      } else if (_.isBoolean(value)) {
+      } else if (R.is(Boolean, value)) {
         type = "bool";
-      } else if (_.isNumber(value)) {
+      } else if (R.is(Number, value)) {
         type = "number";
-      } else if (_.isDate(value)) {
+      } else if (R.is(Date, value)) {
         type = "date";
       } else {
         type = "object";
@@ -104,7 +104,7 @@ class LocalStorage {
         value = undefined;
       }
 
-      if (_.isUndefined(value)) { value = options.default; }
+      if (value === undefined) { value = options.default; }
     }
 
     // Finish up.

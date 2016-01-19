@@ -1,4 +1,4 @@
-import _ from "lodash";
+import R from "ramda";
 
 
 /*
@@ -14,7 +14,7 @@ import _ from "lodash";
   @returns an `argb` style string.
 */
 export const fromAlpha = (value) => {
-  if (!_.isNumber(value)) { return value; }
+  if (!R.is(Number, value)) { return value; }
   if (value < -1) { value = -1; }
   if (value > 1) { value = 1; }
 

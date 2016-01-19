@@ -1,5 +1,5 @@
-import _ from "lodash";
-import { isBlank, toNumber } from "./util";
+import R from "ramda";
+import { isBlank, toNumber, isPlainObject } from "./util";
 
 
 /**
@@ -10,10 +10,10 @@ import { isBlank, toNumber } from "./util";
  * @return {object}
  */
 export const expandImagePath = (path) => {
-    if (_.isEmpty(path)) { throw new Error(`Image path not specified.`); }
+    if (isBlank(path)) { throw new Error(`Image path not specified.`); }
 
     // Extract paths and file-name.
-    let index = _.lastIndexOf(path, "/");
+    let index = R.lastIndexOf("/", path);
     const basePath = path.substr(0, index + 1);
     let fileName = path.substr(index + 1, path.length);
     let parts = fileName.split(".");
@@ -30,6 +30,7 @@ export const expandImagePath = (path) => {
       "2x": `${ basePath }${ fileName }@2x.${ extension }`
     };
   };
+
 
 
 /**
@@ -60,17 +61,19 @@ export const image = (image1x, image2x, { width=10, height=10 } = {}) => {
   };
 
 
+
 const mergeAndReplace = (key, value, target) => {
-    _.merge(target, value);
+    Object.assign(target, value);
     delete target[key];
     return target;
   };
 
 
+
 const formatImage = (key, value, target) => {
     // Wrangle parameters.
     let [ image1x, image2x, width, height ] = value;
-    if (_.isNumber(image2x)) {
+    if (R.is(Number, image2x)) {
       height = width;
       width = image2x;
       image2x = undefined;
@@ -81,15 +84,15 @@ const formatImage = (key, value, target) => {
 
 
 
-
 // ----------------------------------------------------------------------------
+
 
 
 export const toPositionEdges = (key, value) => {
     if (value === undefined || value === null) { return undefined; }
-    if (_.isString(value) && isBlank(value)) { return undefined; }
-    if (_.isArray(value) && value.length === 0) { return undefined; }
-    if (!_.isArray(value)) {
+    if (R.is(String, value) && isBlank(value)) { return undefined; }
+    if (R.is(Array, value) && value.length === 0) { return undefined; }
+    if (!R.is(Array, value)) {
       value = value.toString().split(" ");
     }
     const edges = value.map(item => toNumber(item));
@@ -97,7 +100,7 @@ export const toPositionEdges = (key, value) => {
 
     const getEdge = (index) => {
         let edge = edges[index];
-        if (_.isNull(edge) || edge === "null" || edge === "") { return undefined; }
+        if (edge === null || edge === "null" || edge === "") { return undefined; }
         return edge;
       };
 
@@ -176,12 +179,12 @@ const formatAbsoluteCenter = (key, value, target) => {
  * @return the resulting style object.
  */
 const css = (styles = {}) => {
-    _.keys(styles).forEach(key => {
+    Object.keys(styles).forEach(key => {
         const value = styles[key];
-        if (_.isUndefined(value) || _.isNull(value)) {
+        if (R.isNil(value)) {
           delete styles[key];
 
-        } else if (_.isPlainObject(value)) {
+        } else if (isPlainObject(value)) {
           styles[key] = css(value); // <== RECURSION.
 
         } else {

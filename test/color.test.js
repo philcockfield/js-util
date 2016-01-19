@@ -1,6 +1,8 @@
 import { expect } from "chai";
 import * as color from "../src/color";
 
+
+
 describe("color", () => {
   describe(".fromAlpha", () => {
     it("returns the given string (no-op)", () => {
