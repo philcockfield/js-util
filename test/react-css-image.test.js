@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import { css } from "../../src/react";
-import { image, expandImagePath } from "../../src/react/css";
+import css, { image, expandImagePath } from "../src/react-css";
 
 
 describe("React: CSS - image", () => {

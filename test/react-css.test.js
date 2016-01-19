@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { css } from "../../src/react";
+import css from "../src/react-css";
 
 
 describe("React: CSS", () => {

@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 #### Changed
 - Updated to Babel-6.
+- Moved `lorem` into the root `/src` folder.
+- Moved React CSS helpers into root `/src` folder as `react-css`.
+- Removed aggregate API index, each module must be specifically references with an `import/require`.
+  This is so facilitate not pulling in unnecessary code with Webpack.
 
 #### Deprecated
 

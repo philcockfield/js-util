@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { expect } from "chai";
 
-import util from "../src";
+import * as util from "../src/util";
 import Handlers from "../src/Handlers";
 
 
