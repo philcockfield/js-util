@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import { css } from "../../src/react";
-import { toPositionEdges, formatPositionEdges } from "../../src/react/css";
+import css, { toPositionEdges, formatPositionEdges } from "../src/react-css";
 
 
 describe("React: CSS - positioning", () => {

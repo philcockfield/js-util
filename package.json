@@ -1,29 +1,34 @@
 {
   "name": "js-util",
-  "version": "1.0.12",
+  "version": "2.0.0",
   "description": "Common JS helpers.",
   "main": "./lib/index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel-register",
+    "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel-register --watch",
+    "prepublish": "gulp lint && gulp build"
+  },
   "dependencies": {
-    "color": "^0.10.1",
-    "lodash": "^3.6.0",
+    "ramda": "^0.19.1",
     "react": "^0.14.2",
     "react-schema": "^1.0.3"
   },
   "devDependencies": {
-    "babel": "^5.8.3",
-    "babel-eslint": "^3.1.20",
+    "babel-core": "^6.3.21",
+    "babel-polyfill": "^6.3.14",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "babel-plugin-transform-class-properties": "^6.3.13",
+    "babel-eslint": "5.0.0-beta6",
     "chai": "^2.2.0",
-    "coffee-script": "^1.9.1",
     "gulp": "^3.9.0",
-    "gulp-babel": "^5.1.0",
-    "gulp-eslint": "^0.15.0",
+    "gulp-babel": "^6.1.1",
+    "gulp-eslint": "^1.1.1",
+    "gulp-plumber": "^1.0.1",
     "mocha": "^2.2.1",
     "sinon": "^1.15.4"
-  },
-  "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register",
-    "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel/register --watch",
-    "prepublish": "npm test && gulp lint && gulp build"
   },
   "repository": {
     "type": "git",

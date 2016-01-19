@@ -1,5 +1,51 @@
 /* global setTimeout, clearTimeout */
-import _ from "lodash";
+import R from "ramda";
+
+
+
+
+/**
+ * Returns a copy of the array with falsey values removed.
+ * Removes:
+ *   - null
+ *   - undefined
+ *   - empty-string ("")
+ *
+ * @param {Array} value: The value to examine.
+ * @return {Array}.
+ */
+export const compact = (value) => {
+  return R.pipe(
+            R.reject(R.isNil),
+            R.reject(R.isEmpty)
+          )(value);
+};
+
+
+
+/**
+ * Determines whether the value is a simple object (ie. not a class instance).
+ * @param value: The value to examine.
+ * @return {Boolean}.
+ */
+export const isPlainObject = (value) => {
+  if (R.is(Object, value) === false) return false;
+
+  // Not plain if it has a modified constructor.
+  const ctr = value.constructor;
+  if (typeof ctr !== "function") { return false; }
+
+  // If has modified prototype.
+  const prot = ctr.prototype;
+  if (R.is(Object, prot) === false) { return false; }
+
+  // If the constructor does not have an object-specific method.
+  if (prot.hasOwnProperty("isPrototypeOf") === false) { return false; }
+
+  // Finish up.
+  return true;
+};
+
 
 
 /**
@@ -7,13 +53,13 @@ import _ from "lodash";
 * meaning it can be either:
 *   - null
 *   - undefined
-*   - empty-string.
-*   - empty-array
+*   - empty-string ("")
+*   - empty-array ([]).
 */
 export const isBlank = (value) => {
   if (value === null || value === undefined) { return true; }
-  if (_.isArray(value) && _.compact(value).length === 0) { return true; }
-  if (_.isString(value) && _.trim(value) === "") { return true; }
+  if (R.is(Array, value) && compact(value).length === 0) { return true; }
+  if (R.is(String, value) && value.trim() === "") { return true; }
   return false;
 };
 
@@ -32,7 +78,7 @@ export const isNumeric = (value) => {
   const number = parseFloat(value);
   if (number === undefined) { return false; }
   if (number.toString().length !== value.toString().length) { return false; }
-  return !_.isNaN(number);
+  return !Number.isNaN(number);
 };
 
 
@@ -46,7 +92,7 @@ export const toNumber = (value) => {
   const number = parseFloat(value);
   if (number === undefined) { return value; }
   if (number.toString().length !== value.toString().length) { return value; }
-  return _.isNaN(number) ? value : number;
+  return Number.isNaN(number) ? value : number;
 };
 
 
@@ -57,8 +103,8 @@ export const toNumber = (value) => {
 */
 export const toBool = (value) => {
   if (!value) { return value; }
-  if (_.isBoolean(value)) { return value; }
-  let asString = _.trim(value.toString()).toLowerCase();
+  if (R.is(Boolean, value)) { return value; }
+  let asString = value.toString().trim().toLowerCase();
   if (asString === "true") { return true; }
   if (asString === "false") { return false; }
   return value;
@@ -71,8 +117,8 @@ export const toBool = (value) => {
  * @return the original or converted value.
  */
 export const toType = (value) => {
-  if (!_.isString(value)) { return value; }
-  const lowerCase = _.trim(value.toLowerCase());
+  if (!R.is(String, value)) { return value; }
+  const lowerCase = value.toLowerCase().trim();
 
   // Boolean.
   if (lowerCase === "true") { return true; }
@@ -80,7 +126,7 @@ export const toType = (value) => {
 
   // Number.
   const number = toNumber(lowerCase);
-  if (_.isNumber(number)) { return number; }
+  if (R.is(Number, number)) { return number; }
 
   // Originanl type.
   return value;
@@ -100,11 +146,11 @@ export const toType = (value) => {
 */
 export const delay = (msecs, func) => {
   // Check parameters.
-  if (_.isFunction(msecs)) {
+  if (R.is(Function, msecs)) {
     func = msecs;
     msecs = 0; // Immediate "defer" when no milliseconds value specified.
   }
-  if (_.isFunction(func)) {
+  if (R.is(Function, func)) {
     // Return an object with the running timer.
     return {
       msecs: msecs,
@@ -126,7 +172,7 @@ export const delay = (msecs, func) => {
 * @returns the child object of the namespace.
 */
 export const ns = (root, namespace, options = {}) => {
-  if (_.isString(root) || _.isArray(root)) {
+  if (R.is(String, root) || R.is(Array, root)) {
     namespace = root;
     root = null;
   }
@@ -148,7 +194,7 @@ export const ns = (root, namespace, options = {}) => {
 
   // Build the namespace.
   let delimiter = options.delimiter || ".";
-  if (!_.isArray(namespace)) { namespace = namespace.split(delimiter); }
+  if (!R.is(Array, namespace)) { namespace = namespace.split(delimiter); }
   return add(root, namespace);
 };
 
@@ -166,7 +212,7 @@ export const ns = (root, namespace, options = {}) => {
 export const functionParameters = (func) => {
   const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
   const ARGUMENT_NAMES = /([^\s,]+)/g;
-  if (!_.isFunction(func)) { return []; }
+  if (!R.is(Function, func)) { return []; }
   let fnStr = func.toString().replace(STRIP_COMMENTS, "");
   let result = fnStr.slice(fnStr.indexOf("(") + 1, fnStr.indexOf(")")).match(ARGUMENT_NAMES);
   if (result === null) { result = []; }

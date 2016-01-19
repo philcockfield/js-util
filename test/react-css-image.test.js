@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import { css } from "../../src/react";
-import { image, expandImagePath } from "../../src/react/css";
+import css, { image, expandImagePath } from "../src/react-css";
 
 
 describe("React: CSS - image", () => {
@@ -24,13 +23,13 @@ describe("React: CSS - image", () => {
     });
 
     it("throws if no image is specified", () => {
-      expect(() => { expandImage(); }).to.throw();
-      expect(() => { expandImage(null); }).to.throw();
-      expect(() => { expandImage(""); }).to.throw();
+      expect(() => { expandImagePath(); }).to.throw();
+      expect(() => { expandImagePath(null); }).to.throw();
+      expect(() => { expandImagePath(""); }).to.throw();
     });
 
     it("throws if there is no file extension", () => {
-      expect(() => { expandImage("../foo/bar"); }).to.throw();
+      expect(() => { expandImagePath("../foo/bar"); }).to.throw();
     });
   });
 

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import R from "ramda";
 
 
 
@@ -14,7 +14,7 @@ export default class Handlers {
   constructor(context, ...handlers) {
     this.context = context;
     this.items = [];
-    _.flatten(handlers).forEach((func) => this.push(func));
+    R.flatten(handlers).forEach((func) => this.push(func));
   }
 
   dispose() {
@@ -31,13 +31,13 @@ export default class Handlers {
   /*
   Gets whether the collection contains the given handler function.
   */
-  contains(func) { return !_.isUndefined(this.handle(func)); }
+  contains(func) { return this.handle(func) !== undefined; }
 
 
   /*
   Gets the handle with the corresponding function.
   */
-  handle(func) { return _.find(this.items, (item) => item.func === func); }
+  handle(func) { return this.items.find(item => item.func === func); }
 
 
   /*
@@ -46,7 +46,7 @@ export default class Handlers {
   @returns A handle object.  Use "stop()" to clear remove it.
   */
   add(func) {
-    if (_.isFunction(func)) {
+    if (R.is(Function, func)) {
       var handle = createHandle(this, func);
       this.items.push(handle);
       return handle;
@@ -63,9 +63,11 @@ export default class Handlers {
   @returns true if the function was removed, or false if it was not found.
   */
   remove(func) {
-    var handle = _.find(this.items, (item) => item.func === func);
-    if (handle) { _.remove(this.items, handle); }
-    return !_.isUndefined(handle);
+    var handle = this.items.find(item => item.func === func);
+    if (handle) {
+      this.items = R.remove(R.indexOf(handle, this.items), 1, this.items);
+    }
+    return handle !== undefined;
   }
 
 
@@ -82,7 +84,7 @@ export default class Handlers {
   @returns false if any handler returned false (ie. cancelled the operation in question).
   */
   invoke(...args) {
-    let items = _.clone(this.items);
+    let items = R.clone(this.items);
     for (let i in items) {
       let item = items[i];
       let result = item.func.apply(this.context, args);
@@ -98,7 +100,7 @@ export default class Handlers {
   @returns the first handler result, or undefined.
   */
   firstResult(...args) {
-    var items = _.clone(this.items);
+    var items = R.clone(this.items);
     for (let i in items) {
       let item = items[i];
       let result = item.func.apply(this.context, args);
@@ -116,7 +118,7 @@ export default class Handlers {
   */
   results(...args) {
     var results = [];
-    var items = _.clone(this.items);
+    var items = R.clone(this.items);
     for (let i in items) {
       let item = items[i];
       let result = item.func.apply(this.context, args);
@@ -133,7 +135,7 @@ export default class Handlers {
                            - result: false if any handler returned false (ie. cancelled the operation in question).
   */
   invokeAsync(...args) {
-    var callback = _.last(args);
+    var callback = R.last(args);
     args.pop();
     if (this.items.length === 0) {
       callback(true);
@@ -153,29 +155,28 @@ export default class Handlers {
           }
         }
       };
-
     args.push(done);
     this.items.forEach((item) => item.func.apply(this.context, args));
-
   }
 }
+
 
 // --------------------------------------------------------------------------
 
 
-var createHandle = (handlers, func) => {
-  let handle = {
-    handlers: handlers,
-    func: func,
-    isStopped: false,
+const createHandle = (handlers, func) => {
+    let handle = {
+      handlers: handlers,
+      func: func,
+      isStopped: false,
 
-    stop() {
-      if (handle.isStopped === true) { return; }
-      handle.isStopped = true;
-      _.remove(handlers.items, handle);
-    },
+      stop() {
+        if (handle.isStopped === true) { return; }
+        handle.isStopped = true;
+        handlers.items = R.remove(R.indexOf(handle, handlers.items), 1, handlers.items);
+      },
 
-    dispose() { this.stop(); }
+      dispose() { this.stop(); }
+    };
+    return handle;
   };
-  return handle;
-};

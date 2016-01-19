@@ -1,7 +1,6 @@
-import _ from "lodash";
+import R from "ramda";
 import { expect } from "chai";
-
-import * as Util from "../src";
+import * as util from "../src/util";
 import Handlers from "../src/Handlers";
 
 
@@ -39,14 +38,14 @@ describe("Handlers", () => {
     it("adds a handler to the array", () => {
       let fn = () => 0;
       handlers.add(fn);
-      let isContained = _.any(handlers.items, (item) => item.func === fn);
+      let isContained = R.any(item => item.func === fn, handlers.items);
       expect(isContained).to.equal(true);
     });
 
 
     it("does not add a non-function to the array", () => {
       handlers.add(123);
-      let isContained = _.any(handlers.items, (item) => item.func === fn);
+      let isContained = R.any(item => item.func === fn, handlers.items);
       expect(isContained).to.equal(false);
     });
 
@@ -64,7 +63,7 @@ describe("Handlers", () => {
     it("uses 'push' as an alias to 'add'", () => {
       let fn = () => 0;
       handlers.push(fn);
-      let isContained = _.any(handlers.items, (item) => item.func === fn);
+      let isContained = R.any(item => item.func === fn, handlers.items);
       expect(isContained).to.equal(true);
     });
   });
@@ -78,7 +77,7 @@ describe("Handlers", () => {
       let fn = () => 0;
       handlers.add(fn);
       let wasRemoved = handlers.remove(fn);
-      let isContained = _.any(handlers.items, (item) => item.func === fn);
+      let isContained = R.any(item => item.func === fn, handlers.items);
       expect(isContained).to.equal(false);
       expect(wasRemoved).to.equal(true);
       expect(handlers.items).to.eql([]);
@@ -198,7 +197,7 @@ describe("Handlers", () => {
         });
       handlers.add((done) => {
           count += 1;
-          Util.delay(() => { done() });
+          util.delay(() => { done() });
         });
 
       handlers.invokeAsync((result, err) => {

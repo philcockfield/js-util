@@ -1,5 +1,4 @@
-import _ from "lodash";
-import colorUtil from "color";
+import R from "ramda";
 
 
 /*
@@ -15,7 +14,7 @@ import colorUtil from "color";
   @returns an `argb` style string.
 */
 export const fromAlpha = (value) => {
-  if (!_.isNumber(value)) { return value; }
+  if (!R.is(Number, value)) { return value; }
   if (value < -1) { value = -1; }
   if (value > 1) { value = 1; }
 
@@ -29,24 +28,3 @@ export const fromAlpha = (value) => {
     return `rgba(255, 255, 255, ${ value })`;
   }
 };
-
-
-const clampPercent = (value) => {
-  if (!_.isNumber(value)) { return 0; }
-  if (value < 0) { value = 0; }
-  if (value > 1) { value = 1; }
-  return value;
-};
-
-
-export class NamedColor {
-  constructor(name) { this.name = name; }
-  toString() { return colorUtil(this.name).hexString(); }
-  darken(percent) { return colorUtil(this.name).darken(clampPercent(percent)).hexString(); }
-  lighten(percent) { return colorUtil(this.name).lighten(clampPercent(percent)).hexString(); }
-}
-
-
-export const color = (name) => { return new NamedColor(name); };
-export const white = color("white");
-export const black = color("black");
