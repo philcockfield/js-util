@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { expect } from "chai";
 
-import * as Util from "../src";
+import util from "../src";
 import Handlers from "../src/Handlers";
 
 
@@ -198,7 +198,7 @@ describe("Handlers", () => {
         });
       handlers.add((done) => {
           count += 1;
-          Util.delay(() => { done() });
+          util.delay(() => { done() });
         });
 
       handlers.invokeAsync((result, err) => {

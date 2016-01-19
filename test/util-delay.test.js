@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import * as util from "../src";
+import util from "../src";
 
 
 describe("util.delay", () => {

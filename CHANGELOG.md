@@ -5,14 +5,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased] - YYYY-MM-DD
 #### Added
+
 #### Changed
+- Updated to Babel-6.
+
 #### Deprecated
 
 #### Removed
 - Removed color utilities that leaned on (bloat): https://www.npmjs.com/package/color
 - Removed React validator helpers.  Now in https://github.com/philcockfield/react-schema
-
-
 
 #### Fixed
 #### Security
@@ -21,6 +22,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.0.11] - 2015-12-4
 #### Fixed
 - Exporting `{ PropTypes }` after changes to the `react-schema` library.
+
 
 
 ## [0.0.1] - YYYY-MM-DD

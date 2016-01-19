@@ -1,6 +1,1 @@
-import css from "./css";
-
-
-export default {
-  css
-};
+export const css = require("./css").default;
