@@ -118,7 +118,6 @@ describe("util.toBool", () => {
     it("false (no change)", () => {
       expect(util.toBool(false)).to.equal(false);
     });
-
   });
 
   describe("string to Boolean", () => {
@@ -137,12 +136,22 @@ describe("util.toBool", () => {
 
   it("does not convert other value types", () => {
     expect(util.toBool()).to.equal(undefined);
-    expect(util.toBool(null)).to.equal(null);
-    expect(util.toBool("Foo")).to.equal("Foo");
-    expect(util.toBool("")).to.equal("");
-    expect(util.toBool(" ")).to.equal(" ");
-    expect(util.toBool(123)).to.equal(123);
-    expect(util.toBool({foo:123})).to.eql({foo:123});
+    expect(util.toBool(null)).to.equal(undefined);
+    expect(util.toBool("Foo")).to.equal(undefined);
+    expect(util.toBool("")).to.equal(undefined);
+    expect(util.toBool(" ")).to.equal(undefined);
+    expect(util.toBool(123)).to.equal(undefined);
+    expect(util.toBool({foo:123})).to.eql(undefined);
+  });
+
+  it("returns the given default value", () => {
+    expect(util.toBool(undefined, true)).to.equal(true);
+    expect(util.toBool(undefined, false)).to.equal(false);
+    expect(util.toBool(undefined, 123)).to.equal(123);
+
+    expect(util.toBool(null, true)).to.equal(true);
+    expect(util.toBool(null, false)).to.equal(false);
+    expect(util.toBool(null, 123)).to.equal(123);
   });
 });
 

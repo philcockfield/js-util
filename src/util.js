@@ -99,15 +99,16 @@ export const toNumber = (value) => {
 /**
 * Converts a value to boolean (if it can).
 * @param value: The value to convert.
+* @param defaultValue: The value to return if the given value is null/undefined.
 * @returns the converted boolean, otherwise the original value.
 */
-export const toBool = (value) => {
-  if (!value) { return value; }
+export const toBool = (value, defaultValue) => {
+  if (R.isNil(value)) { return defaultValue; }
   if (R.is(Boolean, value)) { return value; }
   let asString = value.toString().trim().toLowerCase();
   if (asString === "true") { return true; }
   if (asString === "false") { return false; }
-  return value;
+  return defaultValue;
 };
 
 
