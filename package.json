@@ -6,20 +6,20 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel-register",
     "tdd": "./node_modules/mocha/bin/mocha --recursive --compilers js:babel-register --watch",
-    "prepublish": "gulp lint && gulp build"
+    "build": "babel src --out-dir lib --source-maps",
+    "build:watch": "npm run build -- --watch",
+    "prepublish": "gulp lint && npm build"
   },
   "dependencies": {
     "babel-core": "^6.4.5",
-    "js-babel": "^1.0.1",
-    "js-babel-dev": "^1.0.1",
     "ramda": "^0.19.1",
     "react": "^0.14.2",
     "react-schema": "^1.1.1"
   },
   "devDependencies": {
-    "js-babel": "^1.0.0",
-    "js-babel-dev": "^1.0.0",
     "chai": "^2.2.0",
+    "js-babel": "^1.0.1",
+    "js-babel-dev": "^1.1.0",
     "mocha": "^2.2.1",
     "sinon": "^1.15.4"
   },
