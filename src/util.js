@@ -1,5 +1,5 @@
 /* global setTimeout, clearTimeout */
-import R from "ramda";
+import R from 'ramda';
 
 
 
@@ -9,17 +9,15 @@ import R from "ramda";
  * Removes:
  *   - null
  *   - undefined
- *   - empty-string ("")
+ *   - empty-string ('')
  *
  * @param {Array} value: The value to examine.
  * @return {Array}.
  */
-export const compact = (value) => {
-  return R.pipe(
-            R.reject(R.isNil),
-            R.reject(R.isEmpty)
-          )(value);
-};
+export const compact = (value) => R.pipe(
+                                    R.reject(R.isNil),
+                                    R.reject(R.isEmpty)
+                                  )(value);
 
 
 
@@ -33,14 +31,14 @@ export const isPlainObject = (value) => {
 
   // Not plain if it has a modified constructor.
   const ctr = value.constructor;
-  if (typeof ctr !== "function") { return false; }
+  if (typeof ctr !== 'function') { return false; }
 
   // If has modified prototype.
   const prot = ctr.prototype;
   if (R.is(Object, prot) === false) { return false; }
 
   // If the constructor does not have an object-specific method.
-  if (prot.hasOwnProperty("isPrototypeOf") === false) { return false; }
+  if (prot.hasOwnProperty('isPrototypeOf') === false) { return false; }
 
   // Finish up.
   return true;
@@ -49,17 +47,17 @@ export const isPlainObject = (value) => {
 
 
 /**
-* A safe way to test any value as to wheather is is "blank"
+* A safe way to test any value as to wheather is is 'blank'
 * meaning it can be either:
 *   - null
 *   - undefined
-*   - empty-string ("")
+*   - empty-string ('')
 *   - empty-array ([]).
 */
 export const isBlank = (value) => {
   if (value === null || value === undefined) { return true; }
   if (R.is(Array, value) && compact(value).length === 0) { return true; }
-  if (R.is(String, value) && value.trim() === "") { return true; }
+  if (R.is(String, value) && value.trim() === '') { return true; }
   return false;
 };
 
@@ -105,9 +103,9 @@ export const toNumber = (value) => {
 export const toBool = (value, defaultValue) => {
   if (R.isNil(value)) { return defaultValue; }
   if (R.is(Boolean, value)) { return value; }
-  let asString = value.toString().trim().toLowerCase();
-  if (asString === "true") { return true; }
-  if (asString === "false") { return false; }
+  const asString = value.toString().trim().toLowerCase();
+  if (asString === 'true') { return true; }
+  if (asString === 'false') { return false; }
   return defaultValue;
 };
 
@@ -122,8 +120,8 @@ export const toType = (value) => {
   const lowerCase = value.toLowerCase().trim();
 
   // Boolean.
-  if (lowerCase === "true") { return true; }
-  if (lowerCase === "false") { return false; }
+  if (lowerCase === 'true') { return true; }
+  if (lowerCase === 'false') { return false; }
 
   // Number.
   const number = toNumber(lowerCase);
@@ -149,14 +147,14 @@ export const delay = (msecs, func) => {
   // Check parameters.
   if (R.is(Function, msecs)) {
     func = msecs;
-    msecs = 0; // Immediate "defer" when no milliseconds value specified.
+    msecs = 0; // Immediate 'defer' when no milliseconds value specified.
   }
   if (R.is(Function, func)) {
     // Return an object with the running timer.
     return {
-      msecs: msecs,
+      msecs,
       id: setTimeout(func, msecs),
-      stop() { clearTimeout(this.id); }
+      stop() { clearTimeout(this.id); },
     };
   }
 };
@@ -168,7 +166,7 @@ export const delay = (msecs, func) => {
 * @param root:      The root object.
 * @param namespace: The dot-delimited NS string (excluding the root object).
 * @param options:
-*           - delimiter: The namespace delimiter. Default "."
+*           - delimiter: The namespace delimiter. Default '.'
 *
 * @returns the child object of the namespace.
 */
@@ -179,22 +177,22 @@ export const ns = (root, namespace, options = {}) => {
   }
   if (isBlank(namespace)) { return undefined; }
 
-  let getOrCreate = (parent, name) => {
-          parent[name] = parent[name] || {};
-          return parent[name];
-        };
+  const getOrCreate = (parent, name) => {
+    parent[name] = parent[name] || {};
+    return parent[name];
+  };
 
-  let add = (parent, parts) => {
-        let part = getOrCreate(parent, parts[0]);
-        if (parts.length > 1) {
-          parts.splice(0, 1);
-          part = add(part, parts);  // <= RECURSION.
-        }
-        return part;
-      };
+  const add = (parent, parts) => {
+    let part = getOrCreate(parent, parts[0]);
+    if (parts.length > 1) {
+      parts.splice(0, 1);
+      part = add(part, parts);  // <= RECURSION.
+    }
+    return part;
+  };
 
   // Build the namespace.
-  let delimiter = options.delimiter || ".";
+  const delimiter = options.delimiter || '.';
   if (!R.is(Array, namespace)) { namespace = namespace.split(delimiter); }
   return add(root, namespace);
 };
@@ -214,8 +212,8 @@ export const functionParameters = (func) => {
   const STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
   const ARGUMENT_NAMES = /([^\s,]+)/g;
   if (!R.is(Function, func)) { return []; }
-  let fnStr = func.toString().replace(STRIP_COMMENTS, "");
-  let result = fnStr.slice(fnStr.indexOf("(") + 1, fnStr.indexOf(")")).match(ARGUMENT_NAMES);
+  const fnStr = func.toString().replace(STRIP_COMMENTS, '');
+  let result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
   if (result === null) { result = []; }
   return result;
 };

@@ -1,4 +1,23 @@
-import R from "ramda";
+import R from 'ramda';
+
+
+const createHandle = (handlers, func) => {
+  const handle = {
+    handlers,
+    func,
+    isStopped: false,
+
+    stop() {
+      if (handle.isStopped === true) { return; }
+      handle.isStopped = true;
+      handlers.items = R.remove(R.indexOf(handle, handlers.items), 1, handlers.items);
+    },
+
+    dispose() { this.stop(); },
+  };
+  return handle;
+};
+
 
 
 
@@ -43,17 +62,17 @@ export default class Handlers {
   /*
   Adds a function to the collection.
   @param func: The handler function.
-  @returns A handle object.  Use "stop()" to clear remove it.
+  @returns A handle object.  Use 'stop()' to clear remove it.
   */
   add(func) {
     if (R.is(Function, func)) {
-      var handle = createHandle(this, func);
+      const handle = createHandle(this, func);
       this.items.push(handle);
       return handle;
     }
   }
 
-  // Alias to "add".
+  // Alias to 'add'.
   push(func) { return this.add(func); }
 
 
@@ -63,7 +82,7 @@ export default class Handlers {
   @returns true if the function was removed, or false if it was not found.
   */
   remove(func) {
-    var handle = this.items.find(item => item.func === func);
+    const handle = this.items.find(item => item.func === func);
     if (handle) {
       this.items = R.remove(R.indexOf(handle, this.items), 1, this.items);
     }
@@ -84,11 +103,13 @@ export default class Handlers {
   @returns false if any handler returned false (ie. cancelled the operation in question).
   */
   invoke(...args) {
-    let items = R.clone(this.items);
-    for (let i in items) {
-      let item = items[i];
-      let result = item.func.apply(this.context, args);
-      if (result === false) { return false; }
+    const items = R.clone(this.items);
+    for (const i in items) {
+      if ({}.hasOwnProperty.call(items, i)) {
+        const item = items[i];
+        const result = item.func.apply(this.context, args);
+        if (result === false) { return false; }
+      }
     }
     return true;
   }
@@ -100,12 +121,14 @@ export default class Handlers {
   @returns the first handler result, or undefined.
   */
   firstResult(...args) {
-    var items = R.clone(this.items);
-    for (let i in items) {
-      let item = items[i];
-      let result = item.func.apply(this.context, args);
-      if (result) {
-        return result;
+    const items = R.clone(this.items);
+    for (const i in items) {
+      if ({}.hasOwnProperty.call(items, i)) {
+        const item = items[i];
+        const result = item.func.apply(this.context, args);
+        if (result) {
+          return result;
+        }
       }
     }
   }
@@ -117,12 +140,14 @@ export default class Handlers {
   @returns the resulting array of results (including undefined/null values).
   */
   results(...args) {
-    var results = [];
-    var items = R.clone(this.items);
-    for (let i in items) {
-      let item = items[i];
-      let result = item.func.apply(this.context, args);
-      results.push(result);
+    const results = [];
+    const items = R.clone(this.items);
+    for (const i in items) {
+      if ({}.hasOwnProperty.call(items, i)) {
+        const item = items[i];
+        const result = item.func.apply(this.context, args);
+        results.push(result);
+      }
     }
     return results;
   }
@@ -132,51 +157,31 @@ export default class Handlers {
   Invokes all handlers asynchronously.
   @param args: Optional. The arguments to pass.
   @param callback(result): Invoked upon completion.
-                           - result: false if any handler returned false (ie. cancelled the operation in question).
+                           - result: false if any handler returned false
+                             (ie. cancelled the operation in question).
   */
   invokeAsync(...args) {
-    var callback = R.last(args);
+    const callback = R.last(args);
     args.pop();
     if (this.items.length === 0) {
       callback(true);
       return;
     }
 
-    var isCancelled = false;
-    var count = 0;
-    var done = (result) => {
-        count += 1;
-        if (!isCancelled) {
-          if(result === false) { isCancelled = true; }
-          if (isCancelled) {
-            callback(false);
-          } else if(count === this.items.length) {
-            callback(true);
-          }
+    let isCancelled = false;
+    let count = 0;
+    const done = (result) => {
+      count += 1;
+      if (!isCancelled) {
+        if (result === false) { isCancelled = true; }
+        if (isCancelled) {
+          callback(false);
+        } else if (count === this.items.length) {
+          callback(true);
         }
-      };
+      }
+    };
     args.push(done);
     this.items.forEach((item) => item.func.apply(this.context, args));
   }
 }
-
-
-// --------------------------------------------------------------------------
-
-
-const createHandle = (handlers, func) => {
-    let handle = {
-      handlers: handlers,
-      func: func,
-      isStopped: false,
-
-      stop() {
-        if (handle.isStopped === true) { return; }
-        handle.isStopped = true;
-        handlers.items = R.remove(R.indexOf(handle, handlers.items), 1, handlers.items);
-      },
-
-      dispose() { this.stop(); }
-    };
-    return handle;
-  };
