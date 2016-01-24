@@ -19,8 +19,8 @@
   },
   "devDependencies": {
     "chai": "^2.2.0",
-    "js-babel": "^1.0.1",
-    "js-babel-dev": "^1.1.2",
+    "js-babel": "^6.0.0",
+    "js-babel-dev": "^6.0.0",
     "mocha": "^2.2.1",
     "sinon": "^1.15.4"
   },
