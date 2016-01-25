@@ -6,13 +6,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased] - YYYY-MM-DD
 #### Added
 #### Changed
-- Referencing [Babel](https://babeljs.io/) dependencies via `js-babel` and `js-babel-dev` modules.
-- Linting updated to use [AirBnB style guide](https://github.com/airbnb/javascript).
-
 #### Deprecated
 #### Removed
 #### Fixed
 #### Security
+
+
+
+## [2.0.7] - 2016-01-25
+#### Changed
+- Referencing [Babel](https://babeljs.io/) dependencies via `js-babel` and `js-babel-dev` modules.
+- Linting updated to use [AirBnB style guide](https://github.com/airbnb/javascript).
 
 
 
@@ -23,6 +27,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Moved React CSS helpers into root `/src` folder as `react-css`.
 - Removed aggregate API index, each module must be specifically references with an `import/require`.
   This is so facilitate not pulling in unnecessary code with Webpack.
+
+
 
 #### Removed
 - Removed color utilities that leaned on (bloat): https://www.npmjs.com/package/color
