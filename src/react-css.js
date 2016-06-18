@@ -10,7 +10,7 @@ import { isBlank, toNumber, isPlainObject } from './index';
  * @return {object}
  */
 export const expandImagePath = (path) => {
-  if (isBlank(path)) { throw new Error(`Image path not specified.`); }
+  if (isBlank(path)) { throw new Error('Image path not specified.'); }
 
   // Extract paths and file-name.
   const index = R.lastIndexOf('/', path);

@@ -157,6 +157,7 @@ export const delay = (msecs, func) => {
       stop() { clearTimeout(this.id); },
     };
   }
+  return undefined;
 };
 
 

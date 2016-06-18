@@ -25,4 +25,5 @@ export const fromAlpha = (value) => {
   } else if (value > 0) {
     return `rgba(255, 255, 255, ${ value })`;
   }
+  return undefined;
 };

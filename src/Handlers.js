@@ -1,3 +1,5 @@
+/* eslint no-restricted-syntax:0 */
+
 import R from 'ramda';
 
 
@@ -65,11 +67,12 @@ export default class Handlers {
   @returns A handle object.  Use 'stop()' to clear remove it.
   */
   add(func) {
+    let handle;
     if (R.is(Function, func)) {
-      const handle = createHandle(this, func);
+      handle = createHandle(this, func);
       this.items.push(handle);
-      return handle;
     }
+    return handle;
   }
 
   // Alias to 'add'.
@@ -131,6 +134,7 @@ export default class Handlers {
         }
       }
     }
+    return undefined;
   }
 
 
