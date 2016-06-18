@@ -156,6 +156,12 @@ const formatPositionEdges = (key, target) => {
 };
 
 
+/**
+ * AbsoluteCenter
+ *      - x
+ *      - y
+ *      - xy
+ */
 const formatAbsoluteCenter = (key, value, target) => {
   if (value === true) { value = 'xy'; }
   if (value === false || value === undefined || value === null) { return; }
